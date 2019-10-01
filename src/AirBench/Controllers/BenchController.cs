@@ -1,5 +1,6 @@
 ﻿using AirBench.Data;
 using System.Web.Mvc;
+using System.Linq;
 
 namespace AirBench.Controllers
 {
@@ -9,10 +10,9 @@ namespace AirBench.Controllers
         {
             using (var context = new BenchContext())
             {
-                var benches = context.Benches.Sql;
-
+                var benches = context.Benches.ToList();
+                return View(benches);
             }
-            return View();
         }
     }
 }
