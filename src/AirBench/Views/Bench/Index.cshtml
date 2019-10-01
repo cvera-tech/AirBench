@@ -1,7 +1,31 @@
-﻿
+﻿@model List<AirBench.Models.Bench>
+
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Index</h2>
 
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Description</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Seats</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var bench in Model)
+        {
+            <tr>
+                <td>@bench.Id</td>
+                <td>@bench.Description</td>
+                <td>@bench.Latitude</td>
+                <td>@bench.Longitude</td>
+                <td>@bench.NumberSeats</td>
+            </tr>
+        }
+    </tbody>
+</table>
