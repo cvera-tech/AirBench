@@ -13,9 +13,16 @@ namespace AirBench.Data
             benches.Add(new Bench() { Description = "Uncomfortable Bench", Latitude = 13f, Longitude = 27f, NumberSeats = 2 });
             benches.Add(new Bench() { Description = "Weird Bench", Latitude = 5f, Longitude = 2f, NumberSeats = 7 });
             benches.Add(new Bench() { Description = "Actually a chair", Latitude = -3f, Longitude = 26f, NumberSeats = 1 });
-
             benches.ForEach(b => context.Benches.Add(b));
-            base.Seed(context);
+
+            var reviews = new List<Review>();
+            reviews.Add(new Review() { BenchId = 1, Description = "Decent", Rating = 3 });
+            reviews.Add(new Review() { BenchId = 1, Description = "Pretty nice", Rating = 4 });
+            reviews.Add(new Review() { BenchId = 1, Description = "Worst. Bench. Ever.", Rating = 1 });
+            reviews.Add(new Review() { BenchId = 2, Description = "Spiky", Rating = 1 });
+            reviews.Add(new Review() { BenchId = 2, Description = "Poorly maintained", Rating = 2 });
+            reviews.ForEach(r => context.Reviews.Add(r));
+            
         }
     }
 }

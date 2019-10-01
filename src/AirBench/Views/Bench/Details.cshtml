@@ -28,4 +28,24 @@
     </tbody>
 </table>
 
+<h3>Reviews</h3>
+<p>Average rating: @Model.AverageRating</p>
+<table>
+    <thead>
+        <tr>
+            <th>Review</th>
+            <th>Rating</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var review in Model.Reviews)
+        {
+            <tr>
+                <td>@review.Description</td>
+                <td>@review.Rating</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
 @Html.ActionLink("Home", "Index")

@@ -41,7 +41,9 @@ namespace AirBench.Data.Repositories
 
         public List<Bench> List()
         {
-            return _context.Benches.ToList();
+            return _context.Benches
+                .Include(b => b.Reviews)
+                .ToList();
         }
     }
 }
