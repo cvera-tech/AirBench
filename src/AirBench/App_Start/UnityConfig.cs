@@ -1,8 +1,8 @@
 using System.Web.Http;
 using System.Web.Mvc;
 using Unity;
-using Mvc5Resolver = Unity.AspNet.Mvc.UnityDependencyResolver;
-using ApiResolver = Unity.AspNet.WebApi.UnityDependencyResolver;
+using Mvc5Resolver = Unity.Mvc5.UnityDependencyResolver;
+using ApiResolver = Unity.WebApi.UnityDependencyResolver;
 
 namespace AirBench
 {
@@ -11,6 +11,9 @@ namespace AirBench
         public static void RegisterComponents()
         {
             var container = new UnityContainer();
+
+            // register all your components with the container here
+            // it is NOT necessary to register your controllers
 
             // e.g. container.RegisterType<ITestService, TestService>();
 
