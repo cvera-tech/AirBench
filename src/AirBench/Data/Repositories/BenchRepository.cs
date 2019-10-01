@@ -1,5 +1,6 @@
 ﻿using AirBench.Models;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
@@ -33,6 +34,7 @@ namespace AirBench.Data.Repositories
         public Bench Get(int id)
         {
             var bench = _context.Benches
+                .Include(b => b.Reviews)
                 .Single(b => b.Id == id);
             return bench;
         }

@@ -1,0 +1,31 @@
+﻿@model AirBench.Models.Bench
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<table>
+    <thead>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Html.LabelFor(m => m.Description)</td>
+            <td>@Html.DisplayFor(m => m.Description)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.Latitude)</td>
+            <td>@Html.DisplayFor(m => m.Longitude)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.Longitude)</td>
+            <td>@Html.DisplayFor(m => m.Longitude)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.NumberSeats)</td>
+            <td>@Html.DisplayFor(m => m.NumberSeats)</td>
+        </tr>
+    </tbody>
+</table>
+
+@Html.ActionLink("Home", "Index")

@@ -44,5 +44,11 @@ namespace AirBench.Controllers
             benchRepo.Add(bench);
             return RedirectToAction("Index");
         }
+
+        public ActionResult Details(int id)
+        {
+            var bench = benchRepo.Get(id);
+            return View(bench);
+        }
     }
 }
