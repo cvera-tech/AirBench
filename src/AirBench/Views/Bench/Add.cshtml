@@ -1,0 +1,32 @@
+﻿@model AirBench.Models.ViewModels.BenchAddViewModel
+
+@{
+    ViewBag.Title = "Add";
+}
+
+<h2>Add</h2>
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        @Html.LabelFor(m => m.Description)
+        @Html.TextBoxFor(m => m.Description)
+        @Html.ValidationMessageFor(m => m.Description)
+    </fieldset>
+    <fieldset>
+        @Html.LabelFor(m => m.Latitude)
+        @Html.TextBoxFor(m => m.Latitude)
+        @Html.ValidationMessageFor(m => m.Latitude)
+    </fieldset>
+    <fieldset>
+        @Html.LabelFor(m => m.Longitude)
+        @Html.TextBoxFor(m => m.Longitude)
+        @Html.ValidationMessageFor(m => m.Longitude)
+    </fieldset>
+    <fieldset>
+        @Html.LabelFor(m => m.NumberSeats)
+        @Html.DropDownListFor(m => m.NumberSeats, Model.SeatsItems)
+        @Html.ValidationMessageFor(m => m.NumberSeats)
+    </fieldset>
+    <input type="submit" value="Submit" />
+}
