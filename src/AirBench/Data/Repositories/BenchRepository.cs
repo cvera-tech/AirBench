@@ -8,40 +8,38 @@ namespace AirBench.Data.Repositories
 {
     public class BenchRepository : IBenchRepository
     {
+        private BenchContext _context;
+
+        public BenchRepository(BenchContext context)
+        {
+            _context = context;
+        }
+
         public bool Add(Bench entity)
         {
-            using (var context = new BenchContext())
+            try
             {
-                try
-                {
-                    context.Benches.Add(entity);
-                    context.SaveChanges();
-                    return true;
-                }
-                catch
-                {
-                    // TODO
-                    return false;
-                }
+                _context.Benches.Add(entity);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                // TODO
+                return false;
             }
         }
 
         public Bench Get(int id)
         {
-            using (var context = new BenchContext())
-            {
-                var bench = context.Benches
-                    .Single(b => b.Id == id);
-                return bench;
-            }
+            var bench = _context.Benches
+                .Single(b => b.Id == id);
+            return bench;
         }
 
         public List<Bench> List()
         {
-            using (var context = new BenchContext())
-            {
-                return context.Benches.ToList();
-            }
+            return _context.Benches.ToList();
         }
     }
 }

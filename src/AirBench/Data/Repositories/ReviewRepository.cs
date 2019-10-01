@@ -7,6 +7,13 @@ namespace AirBench.Data.Repositories
 {
     public class ReviewRepository : IReviewRepository
     {
+        private BenchContext _context;
+
+        public ReviewRepository(BenchContext context)
+        {
+            _context = context;
+        }
+
         public bool Add(Review entity)
         {
             throw new NotImplementedException();

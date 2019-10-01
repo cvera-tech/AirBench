@@ -158,6 +158,7 @@
     <Compile Include="Controllers\BenchController.cs" />
     <Compile Include="Data\BenchContext.cs" />
     <Compile Include="Data\BenchInitializer.cs" />
+    <Compile Include="Data\IBenchContext.cs" />
     <Compile Include="Data\Repositories\BenchRepository.cs" />
     <Compile Include="Data\Repositories\IBenchRepository.cs" />
     <Compile Include="Data\Repositories\IRepository.cs" />
