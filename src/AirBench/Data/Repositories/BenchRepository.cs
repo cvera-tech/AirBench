@@ -8,6 +8,24 @@ namespace AirBench.Data.Repositories
 {
     public class BenchRepository : IBenchRepository
     {
+        public bool Add(Bench entity)
+        {
+            using (var context = new BenchContext())
+            {
+                try
+                {
+                    context.Benches.Add(entity);
+                    context.SaveChanges();
+                    return true;
+                }
+                catch
+                {
+                    // TODO
+                    return false;
+                }
+            }
+        }
+
         public Bench Get(int id)
         {
             using (var context = new BenchContext())

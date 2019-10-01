@@ -160,6 +160,9 @@
     <Compile Include="Data\BenchInitializer.cs" />
     <Compile Include="Data\Repositories\BenchRepository.cs" />
     <Compile Include="Data\Repositories\IBenchRepository.cs" />
+    <Compile Include="Data\Repositories\IRepository.cs" />
+    <Compile Include="Data\Repositories\IReviewRepository.cs" />
+    <Compile Include="Data\Repositories\ReviewRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

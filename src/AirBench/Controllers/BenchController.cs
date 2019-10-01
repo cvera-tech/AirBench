@@ -3,21 +3,24 @@ using System.Web.Mvc;
 using System.Linq;
 using AirBench.Models.ViewModels;
 using AirBench.Data.Repositories;
+using AirBench.Models;
 
 namespace AirBench.Controllers
 {
     public class BenchController : Controller
     {
-        private IBenchRepository repository;
+        private IBenchRepository benchRepo;
+        private IReviewRepository reviewRepo;
 
-        public BenchController(IBenchRepository repository)
+        public BenchController(IBenchRepository benchRepo, IReviewRepository reviewRepo)
         {
-            this.repository = repository;
+            this.benchRepo = benchRepo;
+            this.reviewRepo = reviewRepo;
         }
         
         public ActionResult Index()
         {
-            var benches = repository.GetBenches();
+            var benches = benchRepo.List();
             return View(benches);
         }
 
@@ -30,7 +33,15 @@ namespace AirBench.Controllers
         [HttpPost]
         public ActionResult Add(BenchAddViewModel viewModel)
         {
-            // Query database
+            var bench = new Bench()
+            {
+                Description = viewModel.Description,
+                Latitude = viewModel.Latitude,
+                Longitude = viewModel.Longitude,
+                NumberSeats = viewModel.NumberSeats
+            };
+            // TODO validation
+            benchRepo.Add(bench);
             return RedirectToAction("Index");
         }
     }

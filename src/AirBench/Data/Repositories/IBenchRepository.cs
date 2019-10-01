@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace AirBench.Data.Repositories
 {
-    internal interface IBenchRepository : IRepository<Bench>
+    public interface IBenchRepository : IRepository<Bench>
     {
         //Bench Get(int id);
         //List<Bench> List();

@@ -19,6 +19,7 @@ namespace AirBench
             // e.g. container.RegisterType<ITestService, TestService>();
 
             container.RegisterType<IBenchRepository, BenchRepository>();
+            container.RegisterType<IReviewRepository, ReviewRepository>();
 
             DependencyResolver.SetResolver(new Mvc5Resolver(container));
             GlobalConfiguration.Configuration.DependencyResolver = new ApiResolver(container);
