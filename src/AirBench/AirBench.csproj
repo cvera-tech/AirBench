@@ -158,14 +158,19 @@
     <Compile Include="Controllers\BenchController.cs" />
     <Compile Include="Data\BenchContext.cs" />
     <Compile Include="Data\BenchInitializer.cs" />
-    <Compile Include="Data\BenchRepository.cs" />
-    <Compile Include="Data\IBenchRepository.cs" />
+    <Compile Include="Data\IBenchContext.cs" />
+    <Compile Include="Data\Repositories\BenchRepository.cs" />
+    <Compile Include="Data\Repositories\IBenchRepository.cs" />
+    <Compile Include="Data\Repositories\IRepository.cs" />
+    <Compile Include="Data\Repositories\IReviewRepository.cs" />
+    <Compile Include="Data\Repositories\ReviewRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Bench.cs" />
     <Compile Include="Models\Review.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\ViewModels\BenchAddViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +183,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Bench\Add.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

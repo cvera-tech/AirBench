@@ -3,7 +3,7 @@ using System.Data.Entity;
 
 namespace AirBench.Data
 {
-    public class BenchContext : DbContext
+    public class BenchContext : DbContext, IBenchContext
     {
         public DbSet<Bench> Benches { get; set; }
         public DbSet<Review> Reviews { get; set; }
