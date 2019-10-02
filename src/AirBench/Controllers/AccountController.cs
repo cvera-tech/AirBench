@@ -28,9 +28,7 @@ namespace AirBench.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(AccountLoginViewModel viewModel)
         {
-            if (ModelState.IsValid &&
-                ModelState.IsValidField("Username") &&
-                ModelState.IsValidField("Password"))
+            if (ModelState.IsValid)
             {
                 var authenticated = _repo.Authenticate(viewModel.Username, viewModel.Password);
                 if (authenticated)

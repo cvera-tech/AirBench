@@ -6,7 +6,9 @@
 
 <h2>Login</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Login", "Account",
+    FormMethod.Post,
+    htmlAttributes: new { id = "LoginForm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -14,15 +16,24 @@
 
     <fieldset class="form-group">
         @Html.LabelFor(model => model.Username)
-        @Html.TextBoxFor(model => model.Username)
+        @Html.TextBoxFor(model => model.Username, 
+            htmlAttributes: new { required = "required" })
     </fieldset>
     <fieldset class="form-group">
         @Html.LabelFor(model => model.Password)
-        @Html.PasswordFor(model => model.Password)
+        @Html.PasswordFor(model => model.Password,
+            htmlAttributes: new { required = "required" })
     </fieldset>
     <div>
-        <input type="submit" value="Log in" class="btn btn-primary" />
+        <input type="submit" id="Submit" value="Log in" class="btn btn-primary disabled" disabled/>
+        @Html.ActionLink("Cancel", "Index", "Bench",
+            routeValues: new { },
+            htmlAttributes: new { @class = "btn btn-default" })
     </div>
 
     <p>Don't have an account? @Html.ActionLink("Register", "Register")</p>
+}
+
+@section scripts {
+    <script src="~/Scripts/login-validation.js"></script>
 }

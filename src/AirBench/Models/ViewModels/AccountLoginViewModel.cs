@@ -5,6 +5,7 @@ namespace AirBench.Models.ViewModels
     public class AccountLoginViewModel
     {
         [Required]
+        [EmailAddress]
         public string Username { get; set; }
 
         [Required]
