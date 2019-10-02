@@ -5,6 +5,7 @@ using Mvc5Resolver = Unity.Mvc5.UnityDependencyResolver;
 using ApiResolver = Unity.WebApi.UnityDependencyResolver;
 using AirBench.Data.Repositories;
 using AirBench.Data;
+using AirBench.Api.Repositories;
 
 namespace AirBench
 {
@@ -14,14 +15,14 @@ namespace AirBench
         {
             var container = new UnityContainer();
 
-            // register all your components with the container here
-            // it is NOT necessary to register your controllers
-
-            // e.g. container.RegisterType<ITestService, TestService>();
+            // MVC dependencies
             container.RegisterType<IBenchContext, BenchContext>();
             container.RegisterType<IAccountRepository, AccountRepository>();
             container.RegisterType<IBenchRepository, BenchRepository>();
             container.RegisterType<IReviewRepository, ReviewRepository>();
+
+            // Web API dependencies
+            container.RegisterType<IBenchApiRepository, BenchApiRepository>();
 
             DependencyResolver.SetResolver(new Mvc5Resolver(container));
             GlobalConfiguration.Configuration.DependencyResolver = new ApiResolver(container);
