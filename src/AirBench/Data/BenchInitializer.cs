@@ -22,7 +22,15 @@ namespace AirBench.Data
             reviews.Add(new Review() { BenchId = 2, Description = "Spiky", Rating = 1 });
             reviews.Add(new Review() { BenchId = 2, Description = "Poorly maintained", Rating = 2 });
             reviews.ForEach(r => context.Reviews.Add(r));
-            
+
+            var users = new List<User>();
+            users.Add(new User() {
+                Username = "john@email.com",
+                HashedPassword = "$2a$10$N1ZGSPeT0Kt1QtKAphb5XOB73L110Wf8R26SCktIZNbZe7VqrNiyy",
+                FirstName = "John",
+                LastName = "Vera"
+            });
+            users.ForEach(u => context.Users.Add(u));
         }
     }
 }
