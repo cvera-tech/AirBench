@@ -1,6 +1,4 @@
-﻿using AirBench.Data;
-using System.Web.Mvc;
-using System.Linq;
+﻿using System.Web.Mvc;
 using AirBench.Models.ViewModels;
 using AirBench.Data.Repositories;
 using AirBench.Models;
@@ -32,6 +30,7 @@ namespace AirBench.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Add(BenchAddViewModel viewModel)
         {
             var bench = new Bench()
@@ -64,6 +63,7 @@ namespace AirBench.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Review(int id, ReviewAddViewModel viewModel)
         {
             var review = new Review()
