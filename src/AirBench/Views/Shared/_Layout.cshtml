@@ -27,7 +27,7 @@
                 {
                     <div>
                         Welcome @(((CustomPrincipal)User).Name)
-                        @using (Html.BeginForm("Logout", "Acccount"))
+                        @using (Html.BeginForm("Logout", "Account"))
                         {
                             <input type="submit" value="Logout" />
                         }

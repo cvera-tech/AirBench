@@ -44,5 +44,12 @@ namespace AirBench.Controllers
             }
             return View(viewModel);
         }
+
+        [HttpPost]
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Bench");
+        }
     }
 }
