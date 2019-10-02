@@ -19,6 +19,7 @@ namespace AirBench
 
             // e.g. container.RegisterType<ITestService, TestService>();
             container.RegisterType<IBenchContext, BenchContext>();
+            container.RegisterType<IAccountRepository, AccountRepository>();
             container.RegisterType<IBenchRepository, BenchRepository>();
             container.RegisterType<IReviewRepository, ReviewRepository>();
 

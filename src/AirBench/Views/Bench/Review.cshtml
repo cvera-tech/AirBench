@@ -30,6 +30,8 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
+
     <fieldset>
         @Html.LabelFor(m => m.Description)
         @Html.TextAreaFor(m => m.Description)

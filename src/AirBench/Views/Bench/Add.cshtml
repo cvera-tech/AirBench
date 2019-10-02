@@ -8,6 +8,8 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
+
     <fieldset>
         @Html.LabelFor(m => m.Description)
         @Html.TextBoxFor(m => m.Description)
