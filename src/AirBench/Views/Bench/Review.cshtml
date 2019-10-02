@@ -1,0 +1,43 @@
+﻿@model AirBench.Models.ViewModels.ReviewAddViewModel
+@{
+    ViewBag.Title = "Review";
+}
+
+<h2>Review</h2>
+
+<table>
+    <thead>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Html.LabelFor(m => m.Bench.Description)</td>
+            <td>@Html.DisplayFor(m => m.Bench.Description)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.Bench.Latitude)</td>
+            <td>@Html.DisplayFor(m => m.Bench.Latitude)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.Bench.Longitude)</td>
+            <td>@Html.DisplayFor(m => m.Bench.Longitude)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.Bench.NumberSeats)</td>
+            <td>@Html.DisplayFor(m => m.Bench.NumberSeats)</td>
+        </tr>
+    </tbody>
+</table>
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        @Html.LabelFor(m => m.Description)
+        @Html.TextAreaFor(m => m.Description)
+        @Html.ValidationMessageFor(m => m.Description)
+    </fieldset>
+    <fieldset>
+        @Html.LabelFor(m => m.Rating)
+        @Html.DropDownListFor(m => m.Rating, Model.RatingItems)
+    </fieldset>
+    <input type="submit" value="Submit" />
+}
