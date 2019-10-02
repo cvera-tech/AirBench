@@ -30,6 +30,7 @@
 
 <h3>Reviews</h3>
 <p>Average rating: @Model.AverageRating</p>
+<div>@Html.ActionLink("Add Review", "Review", routeValues: new { id = Model.Id })</div>
 <table>
     <thead>
         <tr>
