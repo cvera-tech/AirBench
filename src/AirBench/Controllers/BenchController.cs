@@ -17,7 +17,7 @@ namespace AirBench.Controllers
             this.benchRepo = benchRepo;
             this.reviewRepo = reviewRepo;
         }
-        
+
         public ActionResult Index()
         {
             var benches = benchRepo.List();
@@ -49,6 +49,31 @@ namespace AirBench.Controllers
         {
             var bench = benchRepo.Get(id);
             return View(bench);
+        }
+
+        public ActionResult Review(int id)
+        {
+            var bench = benchRepo.Get(id);
+            var viewModel = new ReviewAddViewModel()
+            {
+                Bench = bench
+            };
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Review(int id, ReviewAddViewModel viewModel)
+        {
+            var review = new Review()
+            {
+                BenchId = id,
+                Description = viewModel.Description,
+                Rating = viewModel.Rating
+            };
+
+            reviewRepo.Add(review);
+
+            return RedirectToAction("Details", routeValues: new { id = id });
         }
     }
 }

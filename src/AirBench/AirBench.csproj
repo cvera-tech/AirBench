@@ -171,6 +171,7 @@
     <Compile Include="Models\Review.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\ViewModels\BenchAddViewModel.cs" />
+    <Compile Include="Models\ViewModels\ReviewAddViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +186,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Bench\Add.cshtml" />
     <Content Include="Views\Bench\Details.cshtml" />
+    <Content Include="Views\Bench\Review.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

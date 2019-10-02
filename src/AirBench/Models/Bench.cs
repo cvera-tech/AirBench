@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace AirBench.Models
 {
@@ -18,6 +20,27 @@ namespace AirBench.Models
 
         // Navigation property
         public List<Review> Reviews { get; set; }
+
+        public double? AverageRating
+        {
+            get
+            {
+                if (Reviews.Count == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    var average = Reviews.Average(r => r.Rating);
+                    return Math.Round(average, 1);
+                }
+            }
+        }
+
+        public Bench()
+        {
+            Reviews = new List<Review>();
+        }
 
         public override string ToString()
         {

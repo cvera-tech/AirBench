@@ -16,7 +16,16 @@ namespace AirBench.Data.Repositories
 
         public bool Add(Review entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Reviews.Add(entity);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public Review Get(int id)
