@@ -23,7 +23,9 @@ namespace AirBench.Api.Repositories
 
         public async Task<Bench> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Benches
+                .Include(b => b.Reviews)
+                .SingleOrDefaultAsync(b => b.Id == id);
         }
 
         public async Task<List<Bench>> ListAsync()

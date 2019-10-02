@@ -33,5 +33,30 @@ namespace AirBench.Api.Controllers
             });
             return response;
         }
+
+        [HttpGet]
+        public async Task<BenchDetailsResponse> Details(int id)
+        {
+            var bench = await _benchRepo.GetAsync(id);
+            var response = new BenchDetailsResponse() {
+                Id = bench.Id,
+                Description = bench.Description,
+                Latitude = bench.Latitude,
+                Longitude = bench.Longitude,
+                NumberSeats = bench.NumberSeats,
+                AverageRating = bench.AverageRating
+            };
+            bench.Reviews.ForEach(r =>
+            {
+                var reviewInfo = new ReviewInfo()
+                {
+                    Description = r.Description,
+                    Rating = r.Rating
+                };
+                response.Reviews.Add(reviewInfo);
+            });
+
+            return response;
+        }
     }
 }
