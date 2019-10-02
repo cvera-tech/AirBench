@@ -5,8 +5,7 @@ namespace AirBench.Models
     public class Review
     {
         public int Id { get; set; }
-
-        [Required]
+        
         public int Rating { get; set; }
 
         [Required]

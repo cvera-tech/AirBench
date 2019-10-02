@@ -8,5 +8,7 @@ namespace AirBench.Data
         DbSet<Bench> Benches { get; set; }
         DbSet<Review> Reviews { get; set; }
         DbSet<User> Users { get; set; }
+
+        void SaveChanges();
     }
 }

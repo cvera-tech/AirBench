@@ -60,6 +60,7 @@ namespace AirBench.Controllers
 
         [AllowAnonymous]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Register(AccountRegisterViewModel viewModel)
         {
             if (ModelState.IsValid)

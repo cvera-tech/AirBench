@@ -8,14 +8,11 @@ namespace AirBench.Models.ViewModels
     {
         [Required]
         public string Description { get; set; }
-
-        [Required]
+        
         public float Latitude { get; set; }
 
-        [Required]
         public float Longitude { get; set; }
-
-        [Required]
+        
         [Display(Name = "Number of Seats")]
         public int NumberSeats { get; set; }
 

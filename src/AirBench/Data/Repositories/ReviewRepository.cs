@@ -30,21 +30,22 @@ namespace AirBench.Data.Repositories
 
         public Review Get(int id)
         {
-            using (var context = new BenchContext())
-            {
-                var review = context.Reviews
-                    .Single(r => r.Id == id);
-                return review;
-            }
+            var review = _context.Reviews
+                .SingleOrDefault(r => r.Id == id);
+            return review;
         }
 
         public List<Review> List()
         {
-            using (var context = new BenchContext())
-            {
-                var reviews = context.Reviews.ToList();
-                return reviews;
-            }
+            var reviews = _context.Reviews
+                .ToList();
+            return reviews;
+        }
+
+        public List<Review> ListSimple()
+        {
+            return _context.Reviews
+                .ToList();
         }
     }
 }

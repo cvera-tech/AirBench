@@ -42,9 +42,9 @@ namespace AirBench
                 FormsIdentity formsIdentity = (FormsIdentity)user.Identity;
                 FormsAuthenticationTicket ticket = formsIdentity.Ticket;
                 CustomIdentity customIdentity = new CustomIdentity(ticket);
-
-                // This doesn't seem right
-                var userEntity = new AccountRepository(new BenchContext()).Get(customIdentity.Name);
+                
+                var accountRepository = DependencyResolver.Current.GetService<IAccountRepository>();
+                var userEntity = accountRepository.Get(customIdentity.Name);
 
                 CustomPrincipal customPrincipal = new CustomPrincipal(customIdentity, userEntity);
 

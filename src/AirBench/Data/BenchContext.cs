@@ -1,5 +1,6 @@
 ﻿using AirBench.Models;
 using System.Data.Entity;
+using System;
 
 namespace AirBench.Data
 {
@@ -12,6 +13,11 @@ namespace AirBench.Data
         public BenchContext() : base("bestBenches")
         {
             Database.SetInitializer(new BenchInitializer());
+        }
+
+        void IBenchContext.SaveChanges()
+        {
+            base.SaveChanges();
         }
     }
 }

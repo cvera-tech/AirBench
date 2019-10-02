@@ -30,12 +30,11 @@ namespace AirBench.Data.Repositories
             try
             {
                 _context.Users.Add(entity);
-                ((BenchContext)_context).SaveChanges();
+                _context.SaveChanges();
                 return true;
             }
             catch
             {
-                // TODO
                 return false;
             }
         }
@@ -60,19 +59,17 @@ namespace AirBench.Data.Repositories
 
         public User Get(string username)
         {
-            try
-            {
-                var user = _context.Users
-                    .Single(u => u.Username == username);
-                return user;
-            }
-            catch
-            {
-                return null;
-            }
+            var user = _context.Users
+                .SingleOrDefault(u => u.Username == username);
+            return user;
         }
 
         public List<User> List()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<User> ListSimple()
         {
             throw new NotImplementedException();
         }
