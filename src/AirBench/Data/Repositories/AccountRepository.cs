@@ -22,6 +22,24 @@ namespace AirBench.Data.Repositories
             throw new NotImplementedException();
         }
 
+        public bool Add(User entity, string password)
+        {
+            var hashedPassword = BCrypt.HashPassword(password);
+            entity.HashedPassword = hashedPassword;
+
+            try
+            {
+                _context.Users.Add(entity);
+                ((BenchContext)_context).SaveChanges();
+                return true;
+            }
+            catch
+            {
+                // TODO
+                return false;
+            }
+        }
+
         public bool Authenticate(string username, string password)
         {
             var user = Get(username);

@@ -1,4 +1,5 @@
 ﻿using AirBench.Data.Repositories;
+using AirBench.Models;
 using AirBench.Models.ViewModels;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -50,6 +51,41 @@ namespace AirBench.Controllers
         {
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Bench");
+        }
+
+        [AllowAnonymous]
+        public ActionResult Register()
+        {
+            var viewModel = new AccountRegisterViewModel();
+            return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult Register(AccountRegisterViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new User()
+                {
+                    Username = viewModel.Username,
+                    FirstName = viewModel.FirstName,
+                    LastName = viewModel.LastName
+                };
+
+                var success = _repo.Add(user, viewModel.Password);
+                if (success)
+                {
+                    FormsAuthentication.SetAuthCookie(user.Username, false);
+                    return RedirectToAction("Index", "Bench");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Unable to register user");
+                }
+            }
+
+            return View(viewModel);
         }
     }
 }

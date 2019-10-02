@@ -178,6 +178,7 @@
     <Compile Include="Models\Review.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\ViewModels\AccountLoginViewModel.cs" />
+    <Compile Include="Models\ViewModels\AccountRegisterViewModel.cs" />
     <Compile Include="Models\ViewModels\BenchAddViewModel.cs" />
     <Compile Include="Models\ViewModels\ReviewAddViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -201,6 +202,7 @@
     <Content Include="Views\Bench\Details.cshtml" />
     <Content Include="Views\Bench\Review.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
