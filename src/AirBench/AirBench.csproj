@@ -155,6 +155,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BenchController.cs" />
     <Compile Include="Data\BenchContext.cs" />
     <Compile Include="Data\BenchInitializer.cs" />
@@ -170,9 +171,13 @@
     <Compile Include="Models\Bench.cs" />
     <Compile Include="Models\Review.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\ViewModels\AccountLoginViewModel.cs" />
     <Compile Include="Models\ViewModels\BenchAddViewModel.cs" />
     <Compile Include="Models\ViewModels\ReviewAddViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\CustomIdentity.cs" />
+    <Compile Include="Security\CustomPrincipal.cs" />
+    <Compile Include="Security\ICustomPrincipal.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -187,6 +192,7 @@
     <Content Include="Views\Bench\Add.cshtml" />
     <Content Include="Views\Bench\Details.cshtml" />
     <Content Include="Views\Bench\Review.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
