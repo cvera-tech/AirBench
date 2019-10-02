@@ -18,6 +18,7 @@ namespace AirBench.Controllers
             this.reviewRepo = reviewRepo;
         }
 
+        [AllowAnonymous]
         public ActionResult Index()
         {
             var benches = benchRepo.List();
@@ -45,6 +46,7 @@ namespace AirBench.Controllers
             return RedirectToAction("Index");
         }
 
+        [AllowAnonymous]
         public ActionResult Details(int id)
         {
             var bench = benchRepo.Get(id);
