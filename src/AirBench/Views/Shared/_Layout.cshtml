@@ -23,20 +23,24 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav"></ul>
-                @if (Request.IsAuthenticated)
-                {
-                    <div>
-                        Welcome @(((CustomPrincipal)User).Name)
-                        @using (Html.BeginForm("Logout", "Account"))
-                        {
-                            <input type="submit" value="Logout" />
-                        }
-                    </div>
-                }
-                else
-                {
-                    @Html.ActionLink("Login", "Login", "Account")
-                }
+                <div class="navbar-right">
+                    @if (Request.IsAuthenticated)
+                    {
+                        Html.BeginForm("Logout", "Account");
+                        <span class="navbar-text">Welcome @(((CustomPrincipal)User).Name)</span>
+                        <input type="submit" value="Logout" class="btn btn-warning"/>
+                        Html.EndForm();
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Login", "Login", "Account",
+                            routeValues: new { },
+                            htmlAttributes: new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Register", "Register", "Account",
+                            routeValues: new { },
+                            htmlAttributes: new { @class = "btn btn-success" })
+                    }
+                </div>
             </div>
         </div>
     </div>

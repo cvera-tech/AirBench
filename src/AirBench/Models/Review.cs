@@ -6,6 +6,7 @@ namespace AirBench.Models
     {
         public int Id { get; set; }
 
+        [Required]
         public int Rating { get; set; }
 
         [Required]
