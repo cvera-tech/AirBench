@@ -16,18 +16,17 @@ namespace AirBench.Models.ViewModels
         public float Longitude { get; set; }
 
         [Required]
+        [Display(Name = "Number of Seats")]
         public int NumberSeats { get; set; }
 
-        public List<SelectListItem> SeatsItems
+        public List<SelectListItem> SeatsItems { get; private set; }
+
+        public BenchAddViewModel()
         {
-            get
+            SeatsItems = new List<SelectListItem>();
+            for (int i = 1; i < 11; i++)
             {
-                var list = new List<SelectListItem>();
-                for(int i = 1; i < 11; i++)
-                {
-                    list.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
-                }
-                return list;
+                SeatsItems.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
             }
         }
 
