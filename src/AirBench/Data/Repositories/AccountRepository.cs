@@ -24,14 +24,34 @@ namespace AirBench.Data.Repositories
 
         public bool Authenticate(string username, string password)
         {
-            var user = _context.Users
-                .Single(u => u.Username == username);
-            return BCrypt.Verify(password, user.HashedPassword);
+            var user = Get(username);
+            if (user == null)
+            {
+                return false;
+            }
+            else
+            {
+                return BCrypt.Verify(password, user.HashedPassword);
+            }
         }
 
         public User Get(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public User Get(string username)
+        {
+            try
+            {
+                var user = _context.Users
+                    .Single(u => u.Username == username);
+                return user;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public List<User> List()

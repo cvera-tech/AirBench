@@ -7,6 +7,11 @@ using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
 using System.Web.Http;
+using System.Security.Principal;
+using AirBench.Security;
+using AirBench.Data.Repositories;
+using System.Threading;
+using AirBench.Data;
 
 namespace AirBench
 {
@@ -26,6 +31,26 @@ namespace AirBench
         {
             filters.Add(new HandleErrorAttribute());
             filters.Add(new System.Web.Mvc.AuthorizeAttribute());
+        }
+
+        void Application_PostAuthenticateRequest()
+        {
+            IPrincipal user = HttpContext.Current.User;
+
+            if (user.Identity.IsAuthenticated && user.Identity.AuthenticationType == "Forms")
+            {
+                FormsIdentity formsIdentity = (FormsIdentity)user.Identity;
+                FormsAuthenticationTicket ticket = formsIdentity.Ticket;
+                CustomIdentity customIdentity = new CustomIdentity(ticket);
+
+                // This doesn't seem right
+                var userEntity = new AccountRepository(new BenchContext()).Get(customIdentity.Name);
+
+                CustomPrincipal customPrincipal = new CustomPrincipal(customIdentity, userEntity);
+
+                HttpContext.Current.User = customPrincipal;
+                Thread.CurrentPrincipal = customPrincipal;
+            }
         }
     }
 }

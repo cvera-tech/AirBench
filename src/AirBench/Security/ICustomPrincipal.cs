@@ -5,6 +5,8 @@ namespace AirBench.Security
     public interface ICustomPrincipal : IPrincipal
     {
         int Id { get; }
-        string Name { get; }
+        string Username { get; }
+        string FirstName { get; }
+        string LastName { get; }
     }
 }

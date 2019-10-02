@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using AirBench.Security
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -20,8 +22,21 @@
                 @Html.ActionLink("Benchiest Benches", "Index", "Bench", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                </ul>
+                <ul class="nav navbar-nav"></ul>
+                @if (Request.IsAuthenticated)
+                {
+                    <div>
+                        Welcome @(((CustomPrincipal)User).Name)
+                        @using (Html.BeginForm("Logout", "Acccount"))
+                        {
+                            <input type="submit" value="Logout" />
+                        }
+                    </div>
+                }
+                else
+                {
+                    @Html.ActionLink("Login", "Login", "Account")
+                }
             </div>
         </div>
     </div>
