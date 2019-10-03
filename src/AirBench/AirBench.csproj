@@ -165,7 +165,10 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\login-validation.js" />
+    <Content Include="Scripts\map.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\OpenLayers\ol.css" />
+    <Content Include="Scripts\OpenLayers\ol.js" />
     <Content Include="Scripts\register-validation.js" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -234,6 +237,9 @@
     <Content Include="Views\Bench\Review.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Scripts\OpenLayers\ol.css.map" />
+    <Content Include="Scripts\OpenLayers\ol.js.map" />
+    <Content Include="Views\Bench\Test.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -77,5 +77,11 @@ namespace AirBench.Controllers
 
             return RedirectToAction("Details", routeValues: new { id = id });
         }
+
+        [AllowAnonymous]
+        public ActionResult Test()
+        {
+            return View();
+        }
     }
 }
