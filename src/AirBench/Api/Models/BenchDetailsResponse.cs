@@ -4,6 +4,8 @@ namespace AirBench.Api.Models
 {
     public class BenchDetailsResponse
     {
+        public bool Success { get; set; }
+
         public int Id { get; set; }
 
         public string Description { get; set; }

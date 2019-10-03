@@ -34,7 +34,9 @@ namespace AirBench.Api.Repositories
 
         public async Task<Review> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            var review = await _context.Reviews
+                .SingleOrDefaultAsync(r => r.Id == id);
+            return review;
         }
 
         public async Task<List<Review>> ListAsync()

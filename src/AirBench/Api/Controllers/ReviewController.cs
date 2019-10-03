@@ -15,6 +15,7 @@ namespace AirBench.Api.Controllers
             _repo = repo;
         }
 
+        [HttpPost]
         public async Task<ReviewAddResponse> Add(int id, ReviewAddRequest request)
         {
             var review = new Review()
@@ -39,6 +40,26 @@ namespace AirBench.Api.Controllers
                 response.Success = false;
             }
 
+            return response;
+        }
+
+        [HttpGet]
+        public async Task<ReviewDetailsResponse> Details(int id)
+        {
+            var review = await _repo.GetAsync(id);
+            var response = new ReviewDetailsResponse();
+            if (review != null)
+            {
+                response.Success = true;
+                response.Id = review.Id;
+                response.BenchId = review.BenchId;
+                response.Description = review.Description;
+                response.Rating = review.Rating;
+            }
+            else
+            {
+                response.Success = false;
+            };
             return response;
         }
 

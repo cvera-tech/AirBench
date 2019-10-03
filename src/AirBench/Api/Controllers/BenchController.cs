@@ -27,7 +27,7 @@ namespace AirBench.Api.Controllers
             };
             var benchId = await _benchRepo.AddAsync(bench);
             var response = new BenchAddResponse();
-            if (benchId.HasValue) 
+            if (benchId.HasValue)
             {
                 response.Success = true;
                 response.Id = benchId.Value;
@@ -47,23 +47,31 @@ namespace AirBench.Api.Controllers
         public async Task<BenchDetailsResponse> Details(int id)
         {
             var bench = await _benchRepo.GetAsync(id);
-            var response = new BenchDetailsResponse() {
-                Id = bench.Id,
-                Description = bench.Description,
-                Latitude = bench.Latitude,
-                Longitude = bench.Longitude,
-                NumberSeats = bench.NumberSeats,
-                AverageRating = bench.AverageRating
-            };
-            bench.Reviews.ForEach(r =>
+            var response = new BenchDetailsResponse();
+            if (bench != null)
             {
-                var reviewInfo = new ShortReviewInfo()
+                response.Success = true;
+                response.Id = bench.Id;
+                response.Description = bench.Description;
+                response.Latitude = bench.Latitude;
+                response.Longitude = bench.Longitude;
+                response.NumberSeats = bench.NumberSeats;
+                response.AverageRating = bench.AverageRating;
+
+                bench.Reviews.ForEach(r =>
                 {
-                    Description = r.Description,
-                    Rating = r.Rating
-                };
-                response.Reviews.Add(reviewInfo);
-            });
+                    var reviewInfo = new ShortReviewInfo()
+                    {
+                        Description = r.Description,
+                        Rating = r.Rating
+                    };
+                    response.Reviews.Add(reviewInfo);
+                });
+            }
+            else
+            {
+                response.Success = false;
+            }
 
             return response;
         }
@@ -75,7 +83,8 @@ namespace AirBench.Api.Controllers
             var response = new BenchListResponse();
             benches.ForEach(b =>
             {
-                var benchInfo = new ShortBenchInfo() {
+                var benchInfo = new ShortBenchInfo()
+                {
                     Id = b.Id,
                     Description = b.Description,
                     Latitude = b.Latitude,
