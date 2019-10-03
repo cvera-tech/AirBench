@@ -16,9 +16,19 @@ namespace AirBench.Api.Repositories
             _context = context;
         }
 
-        public async Task<bool> AddAsync(Bench entity)
+        public async Task<int?> AddAsync(Bench entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Benches.Add(entity);
+                _context.SaveChanges();
+                var result = entity.Id;
+                return result;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public async Task<Bench> GetAsync(int id)

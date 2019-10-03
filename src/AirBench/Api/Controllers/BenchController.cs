@@ -1,5 +1,6 @@
 ﻿using AirBench.Api.Models;
 using AirBench.Api.Repositories;
+using AirBench.Models;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -13,24 +14,32 @@ namespace AirBench.Api.Controllers
         {
             _benchRepo = benchRepo;
         }
-        
-        [HttpGet]
-        public async Task<BenchListResponse> List()
+
+        [HttpPost]
+        public async Task<BenchAddResponse> Add(BenchAddRequest request)
         {
-            var benches = await _benchRepo.ListAsync();
-            var response = new BenchListResponse();
-            benches.ForEach(b =>
+            var bench = new Bench()
             {
-                var benchInfo = new ShortBenchInfo() {
-                    Id = b.Id,
-                    Description = b.Description,
-                    Latitude = b.Latitude,
-                    Longitude = b.Longitude,
-                    NumberSeats = b.NumberSeats,
-                    AverageRating = b.AverageRating
-                };
-                response.Benches.Add(benchInfo);
-            });
+                Description = request.Description,
+                Latitude = request.Latitude,
+                Longitude = request.Longitude,
+                NumberSeats = request.NumberSeats
+            };
+            var benchId = await _benchRepo.AddAsync(bench);
+            var response = new BenchAddResponse();
+            if (benchId.HasValue) 
+            {
+                response.Success = true;
+                response.Id = benchId.Value;
+                response.Description = bench.Description;
+                response.Latitude = bench.Latitude;
+                response.Longitude = bench.Longitude;
+                response.NumberSeats = bench.NumberSeats;
+            }
+            else
+            {
+                response.Success = false;
+            }
             return response;
         }
 
@@ -58,5 +67,26 @@ namespace AirBench.Api.Controllers
 
             return response;
         }
+
+        [HttpGet]
+        public async Task<BenchListResponse> List()
+        {
+            var benches = await _benchRepo.ListAsync();
+            var response = new BenchListResponse();
+            benches.ForEach(b =>
+            {
+                var benchInfo = new ShortBenchInfo() {
+                    Id = b.Id,
+                    Description = b.Description,
+                    Latitude = b.Latitude,
+                    Longitude = b.Longitude,
+                    NumberSeats = b.NumberSeats,
+                    AverageRating = b.AverageRating
+                };
+                response.Benches.Add(benchInfo);
+            });
+            return response;
+        }
+
     }
 }
