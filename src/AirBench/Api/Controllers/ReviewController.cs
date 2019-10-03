@@ -135,6 +135,7 @@ namespace AirBench.Api.Controllers
             {
                 var reviewInfo = new ReviewInfo()
                 {
+                    Id = r.Id,
                     BenchId = r.BenchId,
                     Description = r.Description,
                     Rating = r.Rating
