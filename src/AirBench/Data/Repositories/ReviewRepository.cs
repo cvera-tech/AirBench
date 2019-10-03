@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using AirBench.Models;
 using System.Linq;
 
@@ -7,9 +6,9 @@ namespace AirBench.Data.Repositories
 {
     public class ReviewRepository : IReviewRepository
     {
-        private BenchContext _context;
+        private IBenchContext _context;
 
-        public ReviewRepository(BenchContext context)
+        public ReviewRepository(IBenchContext context)
         {
             _context = context;
         }
