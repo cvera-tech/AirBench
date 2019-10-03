@@ -1,0 +1,37 @@
+﻿@model List<AirBench.Models.Bench>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@Html.ActionLink("Add Bench", "Add", "Bench",
+    routeValues: new { },
+    htmlAttributes: new { @class = "btn btn-primary" })
+<table>
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Rating</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Seats</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var bench in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(@bench.Description, "Details",
+                        routeValues: new { id = bench.Id })
+                </td>
+                <td>@bench.AverageRating</td>
+                <td>@bench.Latitude</td>
+                <td>@bench.Longitude</td>
+                <td>@bench.NumberSeats</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,56 @@
+﻿@model AirBench.Models.ViewModels.ReviewAddViewModel
+@{
+    ViewBag.Title = "Review";
+}
+
+<h2>Review</h2>
+
+<table>
+    <thead>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Html.LabelFor(m => m.Bench.Description)</td>
+            <td>@Html.DisplayFor(m => m.Bench.Description)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.Bench.Latitude)</td>
+            <td>@Html.DisplayFor(m => m.Bench.Latitude)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.Bench.Longitude)</td>
+            <td>@Html.DisplayFor(m => m.Bench.Longitude)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.Bench.NumberSeats)</td>
+            <td>@Html.DisplayFor(m => m.Bench.NumberSeats)</td>
+        </tr>
+    </tbody>
+</table>
+
+@using (Html.BeginForm("Review", "Bench", FormMethod.Post,
+    htmlAttributes: new { id = "AddReviewForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+    <fieldset>
+        @Html.LabelFor(m => m.Description)
+        @Html.TextAreaFor(m => m.Description,
+            htmlAttributes: new { required = "required" })
+    </fieldset>
+    <fieldset>
+        @Html.LabelFor(m => m.Rating)
+        @Html.DropDownListFor(m => m.Rating, Model.RatingItems,
+            htmlAttributes: new { required = "required" })
+    </fieldset>
+    <input type="submit" id="Submit" value="Submit" class="btn btn-primary disabled" disabled />
+    @Html.ActionLink("Cancel", "Details", "Bench",
+        routeValues: new { id = Model.Bench.Id },
+        htmlAttributes: new { @class = "btn btn-default" })
+}
+
+@section Scripts {
+    <script src="~/Scripts/add-review-validation.js"></script>
+}

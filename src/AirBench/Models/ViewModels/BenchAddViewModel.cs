@@ -1,0 +1,35 @@
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
+
+namespace AirBench.Models.ViewModels
+{
+    public class BenchAddViewModel
+    {
+        [Required]
+        public string Description { get; set; }
+        
+        public float Latitude { get; set; }
+
+        public float Longitude { get; set; }
+        
+        [Display(Name = "Number of Seats")]
+        public int NumberSeats { get; set; }
+
+        public List<SelectListItem> SeatsItems { get; private set; }
+
+        public BenchAddViewModel()
+        {
+            SeatsItems = new List<SelectListItem>();
+            for (int i = 1; i < 11; i++)
+            {
+                SeatsItems.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
+            }
+        }
+
+        public override string ToString()
+        {
+            return $"({Latitude}, {Longitude}) {Description}, {NumberSeats} seats";
+        }
+    }
+}
