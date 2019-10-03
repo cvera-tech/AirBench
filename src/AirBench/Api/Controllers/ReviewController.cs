@@ -15,6 +15,30 @@ namespace AirBench.Api.Controllers
             _repo = repo;
         }
 
+        /// <summary>
+        /// Attempts to add a review to the bench with the given ID.
+        /// 
+        /// ROUTE:
+        /// "review/add/{id}"
+        /// 
+        /// REQUEST BODY:
+        /// {
+        ///     "Description": `string`,
+        ///     "Rating": `int`
+        /// }
+        /// 
+        /// RESPONSE BODY:
+        /// {
+        ///     "Success": `bool`,
+        ///     "Id": `int`,
+        ///     "BenchId": `int`,
+        ///     "Description": `string`,
+        ///     "Rating": `int`
+        /// }
+        /// </summary>
+        /// <param name="id">The bench ID.</param>
+        /// <param name="request">The request body.</param>
+        /// <returns>The response body.</returns>
         [HttpPost]
         public async Task<ReviewAddResponse> Add(int id, ReviewAddRequest request)
         {
@@ -43,6 +67,23 @@ namespace AirBench.Api.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Attempts to retrieve the review with the given ID.
+        /// 
+        /// ROUTE:
+        /// "review/details/{id}"
+        /// 
+        /// RESPONSE BODY:
+        /// {
+        ///     "Success": `bool`,
+        ///     "Id": `int`,
+        ///     "BenchId": `int`,
+        ///     "Description": `string`,
+        ///     "Rating": `int`
+        /// }
+        /// </summary>
+        /// <param name="id">The review ID.</param>
+        /// <returns>The response body.</returns>
         [HttpGet]
         public async Task<ReviewDetailsResponse> Details(int id)
         {
@@ -63,6 +104,28 @@ namespace AirBench.Api.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Retrieves the list of all reviews.
+        /// 
+        /// ROUTE:
+        /// "review/list"
+        /// 
+        /// RESPONSE BODY:
+        /// {
+        ///     "Reviews": [
+        ///         {
+        ///             "BenchId": `int`,
+        ///             "Description": `string`,
+        ///             "Rating": `int`
+        ///         },
+        ///             .
+        ///             .
+        ///             .
+        ///     ]
+        /// }
+        /// </summary>
+        /// <param name="id">The review ID.</param>
+        /// <returns>The response body.</returns>
         [HttpGet]
         public async Task<ReviewListResponse> List()
         {
@@ -81,6 +144,29 @@ namespace AirBench.Api.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Attempts to retrieve the list of all reviews for the bench with the given ID.
+        /// 
+        /// ROUTE:
+        /// "review/listfor/{id}"
+        /// 
+        /// RESPONSE BODY:
+        /// {
+        ///     "BenchId": {
+        ///     "Reviews": [
+        ///         {
+        ///             "BenchId": `int`,
+        ///             "Description": `string`,
+        ///             "Rating": `int`
+        ///         },
+        ///             .
+        ///             .
+        ///             .
+        ///     ]
+        /// }
+        /// </summary>
+        /// <param name="id">The bench ID.</param>
+        /// <returns>The response body.</returns>
         [HttpGet]
         public async Task<ReviewListForResponse> ListFor(int id)
         {

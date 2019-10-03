@@ -15,6 +15,32 @@ namespace AirBench.Api.Controllers
             _benchRepo = benchRepo;
         }
 
+        /// <summary>
+        /// Attempts to add a bench.
+        /// 
+        /// ROUTE:
+        /// "bench/add"
+        /// 
+        /// REQUEST BODY:
+        /// {
+        ///     "Description": `string`,
+        ///     "Latitude": `float`,
+        ///     "Longitude": `float`,
+        ///     "NumberSeats": `int`
+        /// }
+        /// 
+        /// RESPONSE BODY:
+        /// {
+        ///     "Success": `bool`,
+        ///     "Id": `int`,
+        ///     "Description": `string`,
+        ///     "Latitude": `float`,
+        ///     "Longitude": `float`,
+        ///     "NumberSeats": `int`
+        /// }
+        /// </summary>
+        /// <param name="request">The request body.</param>
+        /// <returns>The response body.</returns>
         [HttpPost]
         public async Task<BenchAddResponse> Add(BenchAddRequest request)
         {
@@ -43,6 +69,31 @@ namespace AirBench.Api.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Attempts to retrieve the bench with the given ID.
+        /// 
+        /// ROUTE:
+        /// "bench/details/{id}"
+        /// 
+        /// RESPONSE BODY:
+        /// {
+        ///     "Success": `bool`,
+        ///     "Id": `int`,
+        ///     "Description": `string`,
+        ///     "Latitude": `float`,
+        ///     "Longitude": `float`,
+        ///     "NumberSeats": `int`,
+        ///     "AverageRating": `double`
+        ///     "Reviews": [
+        ///         {
+        ///             "Description": `string`,
+        ///             "Rating": `int`
+        ///         }
+        ///     ]
+        /// }
+        /// </summary>
+        /// <param name="id">The bench ID.</param>
+        /// <returns>The response body.</returns>
         [HttpGet]
         public async Task<BenchDetailsResponse> Details(int id)
         {
@@ -76,6 +127,27 @@ namespace AirBench.Api.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Retrieves the list of all benches.
+        /// 
+        /// ROUTE:
+        /// "bench/list"
+        /// 
+        /// RESPONSE BODY:
+        /// {
+        ///     "Benches": [
+        ///         {
+        ///             "Id": `int`,
+        ///             "Description": `string',
+        ///             "Latitude": `float`,
+        ///             "Longitude": `float`,
+        ///             "NumberSeats": `int`,
+        ///             "AverageRating": `double`
+        ///         }
+        ///     ]
+        /// }
+        /// </summary>
+        /// <returns>The response body.</returns>
         [HttpGet]
         public async Task<BenchListResponse> List()
         {
