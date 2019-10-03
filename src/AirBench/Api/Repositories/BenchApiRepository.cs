@@ -21,7 +21,7 @@ namespace AirBench.Api.Repositories
             try
             {
                 _context.Benches.Add(entity);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 var result = entity.Id;
                 return result;
             }

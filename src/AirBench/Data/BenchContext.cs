@@ -1,6 +1,6 @@
 ﻿using AirBench.Models;
 using System.Data.Entity;
-using System;
+using System.Threading.Tasks;
 
 namespace AirBench.Data
 {
@@ -15,9 +15,14 @@ namespace AirBench.Data
             Database.SetInitializer(new BenchInitializer());
         }
 
-        void IBenchContext.SaveChanges()
+        int IBenchContext.SaveChanges()
         {
-            base.SaveChanges();
+            return base.SaveChanges();
+        }
+
+        async Task<int> IBenchContext.SaveChangesAsync()
+        {
+            return await base.SaveChangesAsync();
         }
     }
 }

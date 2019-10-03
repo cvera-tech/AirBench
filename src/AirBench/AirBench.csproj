@@ -170,12 +170,19 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\Controllers\ReviewController.cs" />
     <Compile Include="Api\Models\BenchAddRequest.cs" />
     <Compile Include="Api\Models\BenchAddResponse.cs" />
     <Compile Include="Api\Models\BenchDetailsResponse.cs" />
+    <Compile Include="Api\Models\IReviewInfo.cs" />
+    <Compile Include="Api\Models\ReviewListForResponse.cs" />
+    <Compile Include="Api\Models\ShortReviewInfo.cs" />
     <Compile Include="Api\Models\ReviewInfo.cs" />
+    <Compile Include="Api\Models\ReviewListResponse.cs" />
     <Compile Include="Api\Models\ShortBenchInfo.cs" />
     <Compile Include="Api\Models\BenchListResponse.cs" />
+    <Compile Include="Api\Repositories\IReviewApiRepository.cs" />
+    <Compile Include="Api\Repositories\ReviewApiRepository.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />

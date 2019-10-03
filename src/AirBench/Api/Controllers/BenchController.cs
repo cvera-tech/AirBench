@@ -57,7 +57,7 @@ namespace AirBench.Api.Controllers
             };
             bench.Reviews.ForEach(r =>
             {
-                var reviewInfo = new ReviewInfo()
+                var reviewInfo = new ShortReviewInfo()
                 {
                     Description = r.Description,
                     Rating = r.Rating

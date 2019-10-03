@@ -16,11 +16,11 @@ namespace AirBench.Api.Models
 
         public double? AverageRating { get; set; }
 
-        public List<ReviewInfo> Reviews { get; set; }
+        public List<IReviewInfo> Reviews { get; set; }
 
         public BenchDetailsResponse()
         {
-            Reviews = new List<ReviewInfo>();
+            Reviews = new List<IReviewInfo>();
         }
     }
 }
