@@ -175,6 +175,8 @@
     <Compile Include="Api\Models\BenchAddResponse.cs" />
     <Compile Include="Api\Models\BenchDetailsResponse.cs" />
     <Compile Include="Api\Models\IReviewInfo.cs" />
+    <Compile Include="Api\Models\ReviewAddRequest.cs" />
+    <Compile Include="Api\Models\ReviewAddResponse.cs" />
     <Compile Include="Api\Models\ReviewListForResponse.cs" />
     <Compile Include="Api\Models\ShortReviewInfo.cs" />
     <Compile Include="Api\Models\ReviewInfo.cs" />

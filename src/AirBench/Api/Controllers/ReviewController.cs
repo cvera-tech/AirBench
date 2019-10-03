@@ -1,5 +1,6 @@
 ﻿using AirBench.Api.Models;
 using AirBench.Api.Repositories;
+using AirBench.Models;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -12,6 +13,33 @@ namespace AirBench.Api.Controllers
         public ReviewController(IReviewApiRepository repo)
         {
             _repo = repo;
+        }
+
+        public async Task<ReviewAddResponse> Add(int id, ReviewAddRequest request)
+        {
+            var review = new Review()
+            {
+                BenchId = id,
+                Description = request.Description,
+                Rating = request.Rating
+            };
+
+            var reviewId = await _repo.AddAsync(review);
+            var response = new ReviewAddResponse();
+            if (reviewId.HasValue)
+            {
+                response.Success = true;
+                response.Id = reviewId.Value;
+                response.BenchId = id;
+                response.Description = review.Description;
+                response.Rating = review.Rating;
+            }
+            else
+            {
+                response.Success = false;
+            }
+
+            return response;
         }
 
         [HttpGet]

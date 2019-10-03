@@ -19,7 +19,17 @@ namespace AirBench.Api.Repositories
 
         public async Task<int?> AddAsync(Review entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Reviews.Add(entity);
+                await _context.SaveChangesAsync();
+                var id = entity.Id;
+                return id;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public async Task<Review> GetAsync(int id)
