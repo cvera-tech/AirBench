@@ -34,7 +34,7 @@ namespace AirBench.Api.Repositories
 
         public async Task<Bench> GetAsync(int id)
         {
-            // Two queries to take advantage of EF automatic postup
+            // Two queries to take advantage of EF relationship fix-up
             var benches = await _context.Benches
                 .Include(b => b.User)
                 .SingleOrDefaultAsync(b => b.Id == id);

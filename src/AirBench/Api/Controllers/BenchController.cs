@@ -88,8 +88,12 @@ namespace AirBench.Api.Controllers
         ///         {
         ///             "description": `string`,
         ///             "rating": `int`,
-        ///             "reviewer" : `string`
+        ///             "reviewer": `string`
+        ///             "date": `datetimeoffset`
         ///         }
+        ///         .
+        ///         .
+        ///         .
         ///     ]
         /// }
         /// </summary>
@@ -146,6 +150,9 @@ namespace AirBench.Api.Controllers
         ///             "NumberSeats": `int`,
         ///             "AverageRating": `double`
         ///         }
+        ///         .
+        ///         .
+        ///         .
         ///     ]
         /// }
         /// </summary>

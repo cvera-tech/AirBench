@@ -29,17 +29,6 @@
     const popupOverlayId = 'popup';
     const seatsSelectId = 'seats-select';
 
-    class Bench {
-        constructor(id, description, latitude, longitude, numberSeats, avgRating) {
-            this.id = id;
-            this.description = description;
-            this.latitude = latitude;
-            this.longitude = longitude;
-            this.numberSeats = numberSeats;
-            this.avgRating = avgRating;
-        }
-    }
-
     const popup = {
         container: gebi('popup'),
         content: gebi('popup-content')
