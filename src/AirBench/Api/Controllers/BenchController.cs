@@ -108,6 +108,7 @@ namespace AirBench.Api.Controllers
                 response.Longitude = bench.Longitude;
                 response.NumberSeats = bench.NumberSeats;
                 response.AverageRating = bench.AverageRating;
+                response.AddedBy = bench.User.ShortName;
 
                 bench.Reviews.ForEach(r =>
                 {
@@ -162,7 +163,8 @@ namespace AirBench.Api.Controllers
                     Latitude = b.Latitude,
                     Longitude = b.Longitude,
                     NumberSeats = b.NumberSeats,
-                    AverageRating = b.AverageRating
+                    AverageRating = b.AverageRating,
+                    AddedBy = b.User.ShortName
                 };
                 response.Benches.Add(benchInfo);
             });

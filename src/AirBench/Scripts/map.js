@@ -212,10 +212,10 @@
     //********************
     // Now do things
     //********************
+    let benches = await getBenches();
     const map = initMap();
     registerEventListeners(map);
 
-    let benches = await getBenches();
     addBenchMarkers(benches);
     buildBenchList(benches);
 })();

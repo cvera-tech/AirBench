@@ -34,6 +34,7 @@ namespace AirBench.Api.Repositories
         {
             return await _context.Benches
                 .Include(b => b.Reviews)
+                .Include(b => b.User)
                 .SingleOrDefaultAsync(b => b.Id == id);
         }
 
@@ -41,6 +42,7 @@ namespace AirBench.Api.Repositories
         {
             return await _context.Benches
                 .Include(b => b.Reviews)
+                .Include(b => b.User)
                 .ToListAsync();
         }
     }

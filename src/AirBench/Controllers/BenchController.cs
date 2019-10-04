@@ -19,8 +19,7 @@ namespace AirBench.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            var benches = benchRepo.List();
-            return View(benches);
+            return View();
         }
 
         public ActionResult Add()
