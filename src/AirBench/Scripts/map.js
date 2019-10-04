@@ -75,11 +75,19 @@
         addMarker(bench.latitude, bench.longitude, bench);
     }
 
+    // clear the vector layer and readd features
+    function addBenchMarkers(benches) {
+        getVectorSource().clear();
+        benches.forEach(b => {
+            addBenchMarker(b);
+        });
+    }
+
     function addMarker(latitude, longitude, markerOptions = {}) {
         markerOptions.geometry = new Point(FromLonLat([longitude, latitude]));
         const iconFeature = new Feature(markerOptions);
 
-        getVectorSource(map).addFeature(iconFeature);
+        getVectorSource().addFeature(iconFeature);
     }
 
     // function getBenchFromFeature(feature) {
@@ -114,7 +122,7 @@
         return content;
     }
 
-    function getVectorSource(map) {
+    function getVectorSource() {
         const layers = map.getLayers();
         const vectorLayer = layers.item(1);
         const vectorSource = vectorLayer.getSource();
@@ -122,6 +130,8 @@
     }
 
     function registerEventListeners(map) {
+
+        // Map listeners
         map.on('singleclick', (e) => {
             const overlay = map.getOverlayById('popup');
             const feature = map.forEachFeatureAtPixel(e.pixel,
@@ -137,6 +147,18 @@
                 overlay.setPosition(undefined);
             }
         })
+
+        // Table listeners
+        const seatsSelect = document.getElementById('seats-select');
+        seatsSelect.addEventListener('change', (e) => {
+            const seats = parseInt(e.target.value);
+            if (seats === 0) {
+                addBenchMarkers(benches);
+            } else {
+                const filteredBenches = benches.filter(b => b.numberSeats === seats);
+                addBenchMarkers(filteredBenches);
+            }
+        });
     }
 
     //********************
@@ -145,6 +167,6 @@
     const map = initMap();
     registerEventListeners(map);
 
-    const benches = await getBenches();
-    benches.forEach(b => addBenchMarker(b));
+    let benches = await getBenches();
+    addBenchMarkers(benches);
 })();
