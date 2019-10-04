@@ -15,6 +15,15 @@ namespace AirBench.Data
             Database.SetInitializer(new BenchInitializer());
         }
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            // I don't like this
+            modelBuilder.Entity<Review>()
+                .HasRequired<User>(r => r.User)
+                .WithMany()
+                .WillCascadeOnDelete(false);
+        }
+
         int IBenchContext.SaveChanges()
         {
             return base.SaveChanges();

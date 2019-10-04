@@ -86,8 +86,9 @@ namespace AirBench.Api.Controllers
         ///     "AverageRating": `double`
         ///     "Reviews": [
         ///         {
-        ///             "Description": `string`,
-        ///             "Rating": `int`
+        ///             "description": `string`,
+        ///             "rating": `int`,
+        ///             "reviewer" : `string`
         ///         }
         ///     ]
         /// }
@@ -112,11 +113,11 @@ namespace AirBench.Api.Controllers
 
                 bench.Reviews.ForEach(r =>
                 {
-                    var reviewInfo = new ShortReviewInfo()
-                    {
-                        Description = r.Description,
-                        Rating = r.Rating
-                    };
+                    var reviewInfo = new ShortReviewInfo();
+                    reviewInfo.Description = r.Description;
+                    reviewInfo.Rating = r.Rating;
+                    reviewInfo.Reviewer = r.User.ShortName;
+                    reviewInfo.Date = r.Date;
                     response.Reviews.Add(reviewInfo);
                 });
             }
