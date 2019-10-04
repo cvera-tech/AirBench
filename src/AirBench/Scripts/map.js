@@ -23,6 +23,12 @@
         }
     }
 
+    const popup = {
+        container: document.getElementById('popup'),
+        content: document.getElementById('popup-content'),
+        // button: document.getElementById('popup-details')
+    };
+
     function initMap() {
         // Initial parameters
         const initCenter = [0, 0];
@@ -39,14 +45,8 @@
             source: new VectorSource()
         });
 
-
-        // Init popup
-        const popup = {
-            container: document.getElementById('popup'),
-            content: document.getElementById('popup-content')
-        };
-
         const overlay = new Overlay({
+            id: 'popup',
             element: popup.container,
             autoPan: true,
             autoPanAnimation: {
@@ -76,16 +76,42 @@
     }
 
     function addMarker(latitude, longitude, markerOptions = {}) {
-        // const featureOptions = { geometry: new Point(FromLonLat([longitude, latitude])) };
-        // foreach(key in markerOptions) {
-        //     featureOptions.setProperty()
-        // }
-
-        // Add a geometry object to the marker options
         markerOptions.geometry = new Point(FromLonLat([longitude, latitude]));
         const iconFeature = new Feature(markerOptions);
 
         getVectorSource(map).addFeature(iconFeature);
+    }
+
+    // function getBenchFromFeature(feature) {
+    //     let bench = {
+    //         id: feature.get('id'),
+    //         latitude: feature.get('latitude'),
+    //         longitude: feature.get('longitude'),
+    //         numberSeats: feature.get('numberSeats'),
+    //         av
+    //     };
+    // }
+
+    function getPopupContent(feature) {
+        let content = '';
+        content += '<table><thead></thead><tbody>';
+        const description = feature.get('description');
+        const descriptionArray = description.split(' ');
+        let shortDescription;
+        if (descriptionArray.length > 10) {
+            const shortDescriptionArray = descriptionArray.slice(0, 10);
+            shortDescription = shortDescriptionArray.join(' ') + '...';
+        } else {
+            shortDescription = description;
+        }
+        content += '<tr><td>Description</td><td>' + shortDescription + '</td></tr>';
+        content += '<tr><td>Latitude</td><td>' + feature.get('latitude') + '</td></tr>';
+        content += '<tr><td>Longitude</td><td>' + feature.get('longitude') + '</td></tr>';
+        content += '<tr><td>Seats</td><td>' + feature.get('numberSeats') + '</td></tr>';
+        const avgRating = feature.get('averageRating');
+        const rating = avgRating === null ? 'no ratings' : avgRating;
+        content += '<tr><td>Rating</td><td>' + rating + '</td></tr>';
+        return content;
     }
 
     function getVectorSource(map) {
@@ -95,9 +121,9 @@
         return vectorSource;
     }
 
-    function registerEventListeners(map, eventObjects) {
+    function registerEventListeners(map) {
         map.on('singleclick', (e) => {
-            const overlay = eventObjects.overlay;
+            const overlay = map.getOverlayById('popup');
             const feature = map.forEachFeatureAtPixel(e.pixel,
                 // callback function exits on the first truthy value
                 // i.e. it returns the top-most feature on the map
@@ -105,6 +131,7 @@
             );
             if (feature) {
                 const coordinates = feature.getGeometry().getCoordinates();
+                popup.content.innerHTML = getPopupContent(feature);
                 overlay.setPosition(coordinates);
             } else {
                 overlay.setPosition(undefined);
@@ -112,17 +139,12 @@
         })
     }
 
+    //********************
+    // Now do things
+    //********************
     const map = initMap();
-    // addMarker(0, 0);
-    // addMarker(.5, .5);
-    // addMarker(0, .5);
-    // addMarker(15, 28);
-    // addMarker(23, -15);
-    
+    registerEventListeners(map);
+
     const benches = await getBenches();
-    for(bench of benches) {
-        console.log(bench.description);
-        addMarker(bench.longitude, bench.latitude, bench)
-    }
-    console.log(benches);
+    benches.forEach(b => addBenchMarker(b));
 })();

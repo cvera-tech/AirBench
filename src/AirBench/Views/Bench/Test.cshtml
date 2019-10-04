@@ -9,7 +9,8 @@
 </div>
 <div id="popup" class="popup">
     <!-- <a href="#" id="popup-closer"></a> -->
-    <!-- <div id="popup-content"></div> -->
+    <div id="popup-content" class="popup-content"></div>
+    <!-- <input type="button" id="popup-details" value="Details"/> -->
 </div>
 
 @section Scripts {
@@ -31,7 +32,7 @@
             background-color: white;
             -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
             filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
-            padding: 15px;
+            padding: 10px;
             border-radius: 10px;
             border: 1px solid;
             bottom: 12px;
@@ -60,6 +61,10 @@
             border-width: 11px;
             left: 48px;
             margin-left: -11px;
+        }
+
+        .popup-content {
+            min-width: 280px;
         }
     </style>
 }

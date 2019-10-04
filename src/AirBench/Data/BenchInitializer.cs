@@ -13,6 +13,7 @@ namespace AirBench.Data
             benches.Add(new Bench() { Description = "Uncomfortable Bench", Latitude = 13f, Longitude = 27f, NumberSeats = 2 });
             benches.Add(new Bench() { Description = "Weird Bench", Latitude = 5f, Longitude = 2f, NumberSeats = 7 });
             benches.Add(new Bench() { Description = "Actually a chair", Latitude = -3f, Longitude = 26f, NumberSeats = 1 });
+            benches.Add(new Bench() { Description = "This bench has a really long description because SOME people think that long descriptions need to be supported", Latitude = 2f, Longitude = 2f, NumberSeats = 10 });
             benches.ForEach(b => context.Benches.Add(b));
 
             var reviews = new List<Review>();
