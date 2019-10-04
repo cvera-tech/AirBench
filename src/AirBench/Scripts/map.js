@@ -12,6 +12,9 @@
     const VectorSource = ol.source.Vector;
     const View = ol.View;
 
+    // HTLM element IDs
+    const benchListId = 'bench-list';
+
     class Bench {
         constructor(id, description, latitude, longitude, numberSeats, avgRating) {
             this.id = id;
@@ -96,30 +99,73 @@
     //         latitude: feature.get('latitude'),
     //         longitude: feature.get('longitude'),
     //         numberSeats: feature.get('numberSeats'),
-    //         av
+    //         averageRating: feature.get('averageRating')
     //     };
     // }
 
-    function getPopupContent(feature) {
-        let content = '';
-        content += '<table><thead></thead><tbody>';
-        const description = feature.get('description');
-        const descriptionArray = description.split(' ');
-        let shortDescription;
-        if (descriptionArray.length > 10) {
-            const shortDescriptionArray = descriptionArray.slice(0, 10);
-            shortDescription = shortDescriptionArray.join(' ') + '...';
-        } else {
-            shortDescription = description;
+    function buildBenchList(benches) {
+        let content = [];
+        for (bench of benches) {
+            content.push(buildBenchListRow(bench))
         }
-        content += '<tr><td>Description</td><td>' + shortDescription + '</td></tr>';
+        document.getElementById(benchListId).innerHTML = content.join('');
+    }
+
+    function buildBenchListRow(bench) {
+        const avgRating = bench.averageRating;
+        const rating = avgRating === null ? 'no ratings' : avgRating;
+        let content = 
+        `<tr><td colspan="2">
+            <table>
+                <thead></thead>
+                <tbody>
+                    <tr>
+                        <td>Description</td>
+                        <td>${getShortDescription(bench.description)}</td>
+                    </tr>
+                    <tr>
+                        <td>Latitude</td>
+                        <td>${bench.latitude}</td>
+                    </tr>
+                    <tr>
+                        <td>Longitude</td>
+                        <td>${bench.longitude}</td>
+                    </tr>
+                    <tr>
+                        <td>Seats</td>
+                        <td>${bench.numberSeats}</td>
+                    </tr>
+                    <tr>
+                        <td>Rating</td>
+                        <td>${rating}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </td></tr>`;
+        return content;
+    }
+
+    function buildPopupContent(feature) {
+        let content = '<table><thead></thead><tbody>';
+        const description = feature.get('description');
+        content += '<tr><td>Description</td><td>' + getShortDescription(description) + '</td></tr>';
         content += '<tr><td>Latitude</td><td>' + feature.get('latitude') + '</td></tr>';
         content += '<tr><td>Longitude</td><td>' + feature.get('longitude') + '</td></tr>';
         content += '<tr><td>Seats</td><td>' + feature.get('numberSeats') + '</td></tr>';
         const avgRating = feature.get('averageRating');
         const rating = avgRating === null ? 'no ratings' : avgRating;
         content += '<tr><td>Rating</td><td>' + rating + '</td></tr>';
+        content += '</tbody></table>';
         return content;
+    }
+
+    function getShortDescription(description) {
+        const descriptionArray = description.split(' ');
+        if (descriptionArray.length > 10) {
+            return descriptionArray.slice(0, 10).join(' ') + '...';
+        } else {
+            return description;
+        }
     }
 
     function getVectorSource() {
@@ -141,7 +187,7 @@
             );
             if (feature) {
                 const coordinates = feature.getGeometry().getCoordinates();
-                popup.content.innerHTML = getPopupContent(feature);
+                popup.content.innerHTML = buildPopupContent(feature);
                 overlay.setPosition(coordinates);
             } else {
                 overlay.setPosition(undefined);
@@ -152,12 +198,14 @@
         const seatsSelect = document.getElementById('seats-select');
         seatsSelect.addEventListener('change', (e) => {
             const seats = parseInt(e.target.value);
+            let benchList;
             if (seats === 0) {
-                addBenchMarkers(benches);
+                benchList = benches;
             } else {
-                const filteredBenches = benches.filter(b => b.numberSeats === seats);
-                addBenchMarkers(filteredBenches);
+                benchList = benches.filter(b => b.numberSeats === seats);
             }
+            addBenchMarkers(benchList);
+            buildBenchList(benchList);
         });
     }
 
@@ -169,4 +217,5 @@
 
     let benches = await getBenches();
     addBenchMarkers(benches);
+    buildBenchList(benches);
 })();
