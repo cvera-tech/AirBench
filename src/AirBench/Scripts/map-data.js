@@ -9,3 +9,26 @@ async function getBenches() {
     const benches = obj.benches;
     return benches;
 }
+
+async function getBench(id) {
+    const response = await fetch(`${benchUrl}details/${id}`);
+    const obj = await response.json();
+
+    if (obj.success === true) {
+        // Perhaps using the delete operator would suffice:
+        //   delete obj.success;
+        const bench = {
+            id: obj.id,
+            description: obj.description,
+            latitude: obj.latitude,
+            longitude: obj.longitude,
+            numberSeats: obj.numberSeats,
+            averageRating: obj.averageRating,
+            addedBy: obj.addedBy,
+            reviews: obj.reviews
+        };
+        return bench;
+    } else {
+        return undefined;
+    }
+}

@@ -12,8 +12,22 @@
     const VectorSource = ol.source.Vector;
     const View = ol.View;
 
-    // HTLM element IDs
+    const gebi = (e) => document.getElementById(e);
+
+    // HTML element IDs
+    const benchAddedById = 'bench-added-by';
+    const benchDescriptionId = 'bench-description';
+    const benchDetailsId = 'bench-details';
+    const benchLatitudeId = 'bench-latitude';
     const benchListId = 'bench-list';
+    const benchListTableId = 'bench-list-table';
+    const benchLongitudeId = 'bench-longitude';
+    const benchRatingId = 'bench-rating';
+    const benchReviewsId = 'bench-reviews';
+    const benchSeatsId = 'bench-seats';
+    const mapId = 'map';
+    const popupOverlayId = 'popup';
+    const seatsSelectId = 'seats-select';
 
     class Bench {
         constructor(id, description, latitude, longitude, numberSeats, avgRating) {
@@ -27,16 +41,14 @@
     }
 
     const popup = {
-        container: document.getElementById('popup'),
-        content: document.getElementById('popup-content'),
-        // button: document.getElementById('popup-details')
+        container: gebi('popup'),
+        content: gebi('popup-content')
     };
 
     function initMap() {
         // Initial parameters
         const initCenter = [0, 0];
         const initZoom = 3;
-        const mapId = 'map';
 
         // The layer with the map tiles to use
         const rasterLayer = new TileLayer({
@@ -49,7 +61,7 @@
         });
 
         const overlay = new Overlay({
-            id: 'popup',
+            id: popupOverlayId,
             element: popup.container,
             autoPan: true,
             autoPanAnimation: {
@@ -93,30 +105,38 @@
         getVectorSource().addFeature(iconFeature);
     }
 
-    // function getBenchFromFeature(feature) {
-    //     let bench = {
-    //         id: feature.get('id'),
-    //         latitude: feature.get('latitude'),
-    //         longitude: feature.get('longitude'),
-    //         numberSeats: feature.get('numberSeats'),
-    //         averageRating: feature.get('averageRating')
-    //     };
-    // }
+    function buildBenchDetails(bench) {
+        // Fill out table head
+        gebi(benchDescriptionId).innerHTML = bench.description;
+        gebi(benchLatitudeId).innerHTML = bench.latitude;
+        gebi(benchLongitudeId).innerHTML = bench.longitude;
+        gebi(benchSeatsId).innerHTML = bench.numberSeats;
+        gebi(benchRatingId).innerHTML = bench.averageRating === null ? 'no ratings' : bench.averageRating;
+        gebi(benchAddedById).innerHTML = bench.addedBy;
 
-    function buildBenchList(benches) {
+        buildList(bench.reviews, benchReviewsId, buildReviewListRow);
+    }
+
+    /**
+     * Builds an HTML table rows for a given list.
+     * @param {Array} list
+     * @param {string} targetElementId
+     * @param {function} rowBuilder
+     */
+    function buildList(list, targetElementId, rowBuilder) {
         let content = [];
-        for (bench of benches) {
-            content.push(buildBenchListRow(bench))
+        for (listElement of list) {
+            content.push(rowBuilder(listElement));
         }
-        document.getElementById(benchListId).innerHTML = content.join('');
+        gebi(targetElementId).innerHTML = content.join();
     }
 
     function buildBenchListRow(bench) {
         const avgRating = bench.averageRating;
         const rating = avgRating === null ? 'no ratings' : avgRating;
-        let content = 
+        const content = 
         `<tr><td colspan="2">
-            <table>
+            <table class="table">
                 <thead></thead>
                 <tbody>
                     <tr>
@@ -145,6 +165,7 @@
         return content;
     }
 
+    // TODO: Rewrite to match other build functions
     function buildPopupContent(feature) {
         let content = '<table><thead></thead><tbody>';
         const description = feature.get('description');
@@ -157,6 +178,42 @@
         content += '<tr><td>Rating</td><td>' + rating + '</td></tr>';
         content += '</tbody></table>';
         return content;
+    }
+
+    function buildReviewListRow(review) {
+        const content = 
+        `<tr><td colspan="2">
+            <table class="table">
+                <thead></thead>
+                <tbody>
+                    <tr>
+                        <td>Date</td>
+                        <td>${review.date}</td>
+                    </tr>
+                    <tr>
+                        <td>Reviewer</td>
+                        <td>${review.reviewer}</td>
+                    </tr>
+                    <tr>
+                        <td>Rating</td>
+                        <td>${review.rating}</td>
+                    </tr>
+                    <tr>
+                        <td>Description</td>
+                        <td>${review.description}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </td></tr>`;
+        return content;
+    }
+
+    async function getBenchFromFeature(feature) {
+        const benchId = feature.get('id');
+
+        // Make an API call to get the reviews as well
+        const bench = await getBench(benchId);
+        return bench;
     }
 
     function getShortDescription(description) {
@@ -175,11 +232,21 @@
         return vectorSource;
     }
 
+    function showDetailsTable() {
+        gebi(benchDetailsId).classList.remove('hidden');
+        gebi(benchListTableId).classList.add('hidden');
+    }
+
+    function hideDetailsTable() {
+        gebi(benchDetailsId).classList.add('hidden');
+        gebi(benchListTableId).classList.remove('hidden');
+    }
+
     function registerEventListeners(map) {
 
         // Map listeners
-        map.on('singleclick', (e) => {
-            const overlay = map.getOverlayById('popup');
+        map.on('singleclick', async (e) => {
+            const overlay = map.getOverlayById(popupOverlayId);
             const feature = map.forEachFeatureAtPixel(e.pixel,
                 // callback function exits on the first truthy value
                 // i.e. it returns the top-most feature on the map
@@ -189,13 +256,18 @@
                 const coordinates = feature.getGeometry().getCoordinates();
                 popup.content.innerHTML = buildPopupContent(feature);
                 overlay.setPosition(coordinates);
+
+                const bench = await getBenchFromFeature(feature);
+                buildBenchDetails(bench);
+                showDetailsTable();
             } else {
                 overlay.setPosition(undefined);
+                hideDetailsTable();
             }
         })
 
         // Table listeners
-        const seatsSelect = document.getElementById('seats-select');
+        const seatsSelect = gebi(seatsSelectId);
         seatsSelect.addEventListener('change', (e) => {
             const seats = parseInt(e.target.value);
             let benchList;
@@ -205,7 +277,8 @@
                 benchList = benches.filter(b => b.numberSeats === seats);
             }
             addBenchMarkers(benchList);
-            buildBenchList(benchList);
+            buildList(benchList, benchListId, buildBenchListRow);
+            map.getOverlayById(popupOverlayId).setPosition(undefined);
         });
     }
 
@@ -217,5 +290,5 @@
     registerEventListeners(map);
 
     addBenchMarkers(benches);
-    buildBenchList(benches);
+    buildList(benches, benchListId, buildBenchListRow);
 })();
