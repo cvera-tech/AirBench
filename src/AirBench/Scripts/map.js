@@ -130,7 +130,7 @@
                 <tbody>
                     <tr>
                         <td>Description</td>
-                        <td>${getShortDescription(bench.description)}</td>
+                        <td>${bench.description}</td>
                     </tr>
                     <tr>
                         <td>Latitude</td>
@@ -157,8 +157,7 @@
     // TODO: Rewrite to match other build functions
     function buildPopupContent(feature) {
         let content = '<table><thead></thead><tbody>';
-        const description = feature.get('description');
-        content += '<tr><td>Description</td><td>' + getShortDescription(description) + '</td></tr>';
+        content += '<tr><td>Description</td><td>' + feature.get('description') + '</td></tr>';
         content += '<tr><td>Latitude</td><td>' + feature.get('latitude') + '</td></tr>';
         content += '<tr><td>Longitude</td><td>' + feature.get('longitude') + '</td></tr>';
         content += '<tr><td>Seats</td><td>' + feature.get('numberSeats') + '</td></tr>';
@@ -203,15 +202,6 @@
         // Make an API call to get the reviews as well
         const bench = await getBench(benchId);
         return bench;
-    }
-
-    function getShortDescription(description) {
-        const descriptionArray = description.split(' ');
-        if (descriptionArray.length > 10) {
-            return descriptionArray.slice(0, 10).join(' ') + '...';
-        } else {
-            return description;
-        }
     }
 
     function getVectorSource() {
