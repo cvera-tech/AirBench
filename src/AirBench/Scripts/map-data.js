@@ -2,7 +2,7 @@
 const benchUrl = apiUrl + 'bench/';
 
 async function getBenches() {
-    const response = await fetch(benchUrl + 'list');
+    const response = await fetch(benchUrl);
     const obj = await response.json();
     
     // Get the benches array within the response object
@@ -11,7 +11,7 @@ async function getBenches() {
 }
 
 async function getBench(id) {
-    const response = await fetch(`${benchUrl}details/${id}`);
+    const response = await fetch(`${benchUrl}${id}`);
     const obj = await response.json();
 
     if (obj.success === true) {
