@@ -46,31 +46,36 @@ namespace AirBench.Api.Controllers
         /// <returns>The response body.</returns>
         public async Task<BenchAddResponse> Post(BenchAddRequest request)
         {
-            var bench = new Bench()
+            var response = new BenchAddResponse()
             {
-                Description = request.Description,
-                Latitude = request.Latitude,
-                Longitude = request.Longitude,
-                NumberSeats = request.NumberSeats,
-                UserId = request.UserId
+                Success = false
             };
-            var benchId = await _benchRepo.AddAsync(bench);
-            var response = new BenchAddResponse();
-            if (benchId.HasValue)
+
+            if (ModelState.IsValid)
             {
-                response.Success = true;
-                response.Id = benchId.Value;
-                response.Description = bench.Description;
-                response.Latitude = bench.Latitude;
-                response.Longitude = bench.Longitude;
-                response.NumberSeats = bench.NumberSeats;
-                response.UserId = bench.UserId;
+                var bench = new Bench()
+                {
+                    Description = request.Description,
+                    Latitude = request.Latitude.Value,
+                    Longitude = request.Longitude.Value,
+                    NumberSeats = request.NumberSeats.Value,
+                    UserId = request.UserId.Value
+                };
+                var benchId = await _benchRepo.AddAsync(bench);
+                if (benchId.HasValue)
+                {
+                    response.Success = true;
+                    response.Id = benchId.Value;
+                    response.Description = bench.Description;
+                    response.Latitude = bench.Latitude;
+                    response.Longitude = bench.Longitude;
+                    response.NumberSeats = bench.NumberSeats;
+                    response.UserId = bench.UserId;
+                }
             }
-            else
-            {
-                response.Success = false;
-            }
+
             return response;
+
         }
 
         /// <summary>

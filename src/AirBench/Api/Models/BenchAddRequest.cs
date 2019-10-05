@@ -1,15 +1,22 @@
-﻿namespace AirBench.Api.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AirBench.Api.Models
 {
     public class BenchAddRequest
     {
+        [Required]
         public string Description { get; set; }
 
-        public float Latitude { get; set; }
+        [Required]
+        public float? Latitude { get; set; }
 
-        public float Longitude { get; set; }
+        [Required]
+        public float? Longitude { get; set; }
 
-        public int NumberSeats { get; set; }
+        [Required]
+        public int? NumberSeats { get; set; }
 
-        public int UserId { get; set; }
+        [Required]
+        public int? UserId { get; set; }
     }
 }
