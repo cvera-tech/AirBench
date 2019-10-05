@@ -1,6 +1,5 @@
 ﻿using AirBench.Models;
 using System.Data.Entity;
-using System.Threading.Tasks;
 
 namespace AirBench.Data
 {
@@ -22,16 +21,6 @@ namespace AirBench.Data
                 .HasRequired<User>(r => r.User)
                 .WithMany()
                 .WillCascadeOnDelete(false);
-        }
-
-        int IBenchContext.SaveChanges()
-        {
-            return base.SaveChanges();
-        }
-
-        async Task<int> IBenchContext.SaveChangesAsync()
-        {
-            return await base.SaveChangesAsync();
         }
     }
 }

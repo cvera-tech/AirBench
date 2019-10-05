@@ -20,7 +20,7 @@ namespace AirBench.Api.Controllers
         /// Attempts to add a bench.
         /// 
         /// ROUTE:
-        /// "bench/add"
+        /// "api/bench"
         /// 
         /// REQUEST BODY:
         /// {
@@ -44,40 +44,45 @@ namespace AirBench.Api.Controllers
         /// </summary>
         /// <param name="request">The request body.</param>
         /// <returns>The response body.</returns>
-        [HttpPost]
-        public async Task<BenchAddResponse> Add(BenchAddRequest request)
+        public async Task<BenchAddResponse> Post(BenchAddRequest request)
         {
-            var bench = new Bench()
+            var response = new BenchAddResponse()
             {
-                Description = request.Description,
-                Latitude = request.Latitude,
-                Longitude = request.Longitude,
-                NumberSeats = request.NumberSeats,
-                UserId = request.UserId
+                Success = false
             };
-            var benchId = await _benchRepo.AddAsync(bench);
-            var response = new BenchAddResponse();
-            if (benchId.HasValue)
+
+            if (ModelState.IsValid)
             {
-                response.Success = true;
-                response.Id = benchId.Value;
-                response.Description = bench.Description;
-                response.Latitude = bench.Latitude;
-                response.Longitude = bench.Longitude;
-                response.NumberSeats = bench.NumberSeats;
+                var bench = new Bench()
+                {
+                    Description = request.Description,
+                    Latitude = request.Latitude.Value,
+                    Longitude = request.Longitude.Value,
+                    NumberSeats = request.NumberSeats.Value,
+                    UserId = request.UserId.Value
+                };
+                var benchId = await _benchRepo.AddAsync(bench);
+                if (benchId.HasValue)
+                {
+                    response.Success = true;
+                    response.Id = benchId.Value;
+                    response.Description = bench.Description;
+                    response.Latitude = bench.Latitude;
+                    response.Longitude = bench.Longitude;
+                    response.NumberSeats = bench.NumberSeats;
+                    response.UserId = bench.UserId;
+                }
             }
-            else
-            {
-                response.Success = false;
-            }
+
             return response;
+
         }
 
         /// <summary>
         /// Attempts to retrieve the bench with the given ID.
         /// 
         /// ROUTE:
-        /// "bench/details/{id}"
+        /// "api/bench"
         /// 
         /// RESPONSE BODY:
         /// {
@@ -103,8 +108,7 @@ namespace AirBench.Api.Controllers
         /// </summary>
         /// <param name="id">The bench ID.</param>
         /// <returns>The response body.</returns>
-        [HttpGet]
-        public async Task<BenchDetailsResponse> Details(int id)
+        public async Task<BenchDetailsResponse> Get(int id)
         {
             var bench = await _benchRepo.GetAsync(id);
             var response = new BenchDetailsResponse();
@@ -141,7 +145,7 @@ namespace AirBench.Api.Controllers
         /// Retrieves the list of all benches.
         /// 
         /// ROUTE:
-        /// "bench/list"
+        /// "api/bench"
         /// 
         /// RESPONSE BODY:
         /// {
@@ -161,8 +165,7 @@ namespace AirBench.Api.Controllers
         /// }
         /// </summary>
         /// <returns>The response body.</returns>
-        [HttpGet]
-        public async Task<BenchListResponse> List()
+        public async Task<BenchListResponse> Get()
         {
             var benches = await _benchRepo.ListAsync();
             var response = new BenchListResponse();
