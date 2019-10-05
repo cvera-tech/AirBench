@@ -20,7 +20,7 @@ namespace AirBench.Api.Controllers
         /// Attempts to add a bench.
         /// 
         /// ROUTE:
-        /// "bench/add"
+        /// "api/bench"
         /// 
         /// REQUEST BODY:
         /// {
@@ -44,8 +44,7 @@ namespace AirBench.Api.Controllers
         /// </summary>
         /// <param name="request">The request body.</param>
         /// <returns>The response body.</returns>
-        [HttpPost]
-        public async Task<BenchAddResponse> Add(BenchAddRequest request)
+        public async Task<BenchAddResponse> Post(BenchAddRequest request)
         {
             var bench = new Bench()
             {
@@ -65,6 +64,7 @@ namespace AirBench.Api.Controllers
                 response.Latitude = bench.Latitude;
                 response.Longitude = bench.Longitude;
                 response.NumberSeats = bench.NumberSeats;
+                response.UserId = bench.UserId;
             }
             else
             {
@@ -77,7 +77,7 @@ namespace AirBench.Api.Controllers
         /// Attempts to retrieve the bench with the given ID.
         /// 
         /// ROUTE:
-        /// "bench/details/{id}"
+        /// "api/bench"
         /// 
         /// RESPONSE BODY:
         /// {
@@ -103,8 +103,7 @@ namespace AirBench.Api.Controllers
         /// </summary>
         /// <param name="id">The bench ID.</param>
         /// <returns>The response body.</returns>
-        [HttpGet]
-        public async Task<BenchDetailsResponse> Details(int id)
+        public async Task<BenchDetailsResponse> Get(int id)
         {
             var bench = await _benchRepo.GetAsync(id);
             var response = new BenchDetailsResponse();
@@ -141,7 +140,7 @@ namespace AirBench.Api.Controllers
         /// Retrieves the list of all benches.
         /// 
         /// ROUTE:
-        /// "bench/list"
+        /// "api/bench"
         /// 
         /// RESPONSE BODY:
         /// {
@@ -161,8 +160,7 @@ namespace AirBench.Api.Controllers
         /// }
         /// </summary>
         /// <returns>The response body.</returns>
-        [HttpGet]
-        public async Task<BenchListResponse> List()
+        public async Task<BenchListResponse> Get()
         {
             var benches = await _benchRepo.ListAsync();
             var response = new BenchListResponse();
