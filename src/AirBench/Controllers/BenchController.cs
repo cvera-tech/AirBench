@@ -3,6 +3,7 @@ using AirBench.Models.ViewModels;
 using AirBench.Data.Repositories;
 using AirBench.Models;
 using AirBench.Security;
+using System;
 
 namespace AirBench.Controllers
 {
@@ -63,13 +64,13 @@ namespace AirBench.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Unable to add bench");
+                    ModelState.AddModelError("", "Unable to add bench.");
                     return View(viewModel);
                 }
             }
             else
             {
-                ModelState.AddModelError("", "All fields are required");
+                ModelState.AddModelError("", "All fields are required.");
                 return View(viewModel);
             }
         }
@@ -95,16 +96,32 @@ namespace AirBench.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Review(int id, ReviewAddViewModel viewModel)
         {
-            var review = new Review()
+            if (ModelState.IsValid)
             {
-                BenchId = id,
-                Description = viewModel.Description,
-                Rating = viewModel.Rating
-            };
+                var review = new Review()
+                {
+                    BenchId = id,
+                    Description = viewModel.Description,
+                    Rating = viewModel.Rating,
+                    UserId = ((CustomPrincipal)User).Id,
+                    Date = DateTimeOffset.Now
+                };
 
-            reviewRepo.Add(review);
-
-            return RedirectToAction("Details", routeValues: new { id = id });
+                if (reviewRepo.Add(review))
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Unable to add review.");
+                    return View(viewModel);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "All fields are required.");
+                return View(viewModel);
+            }
         }
     }
 }
