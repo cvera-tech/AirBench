@@ -12,9 +12,14 @@
     const VectorSource = ol.source.Vector;
     const View = ol.View;
 
+    // URLs
+    const addBenchUrl = '/bench/add';
+    const addReviewUrl = '/bench/review';
+
     const gebi = (e) => document.getElementById(e);
 
     // HTML element IDs
+    const addReviewId = 'add-review';
     const benchAddedById = 'bench-added-by';
     const benchDescriptionId = 'bench-description';
     const benchDetailsId = 'bench-details';
@@ -98,6 +103,7 @@
         gebi(benchSeatsId).innerHTML = bench.numberSeats;
         gebi(benchRatingId).innerHTML = bench.averageRating === null ? 'no ratings' : bench.averageRating;
         gebi(benchAddedById).innerHTML = bench.addedBy;
+        gebi(addReviewId).innerHTML = buildReviewButton(bench.id);
 
         buildList(bench.reviews, benchReviewsId, buildReviewListRow);
     }
@@ -151,7 +157,7 @@
     }
 
     function buildPopupAddBench(latitude, longitude) {
-        const addBenchUrl = `/bench/add?lat=${latitude}&lon=${longitude}`;
+        const url = `${addBenchUrl}?lat=${latitude}&lon=${longitude}`;
         const content = 
         `
             <table>
@@ -165,7 +171,7 @@
                         <td>${longitude}</td>
                     </tr>
                     <tr colspan="2">
-                        <td><a class="btn btn-primary" href="${addBenchUrl}">Add Bench Here</a>
+                        <td><a href="${url}" class="btn btn-primary">Add Bench Here</a>
                     </tr>
                 </tbody>
             </table>
@@ -184,6 +190,11 @@
         const rating = avgRating === null ? 'no ratings' : avgRating;
         content += '<tr><td>Rating</td><td>' + rating + '</td></tr>';
         content += '</tbody></table>';
+        return content;
+    }
+
+    function buildReviewButton(id) {
+        const content = `<a href="${addReviewUrl}/${id}" class="btn btn-primary">Add Review</a>`;
         return content;
     }
 
@@ -270,7 +281,7 @@
                 overlay.setPosition(coordinates);
             }
             e.stopPropagation();
-        })
+        });
 
         // Table listeners
         const seatsSelect = gebi(seatsSelectId);
