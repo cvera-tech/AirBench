@@ -2,6 +2,7 @@
 using AirBench.Models.ViewModels;
 using AirBench.Data.Repositories;
 using AirBench.Models;
+using AirBench.Security;
 
 namespace AirBench.Controllers
 {
@@ -24,7 +25,20 @@ namespace AirBench.Controllers
 
         public ActionResult Add()
         {
+            float latitude, longitude;
+            var lat = Request.QueryString["lat"];
+            var lon = Request.QueryString["lon"];
             var viewModel = new BenchAddViewModel();
+
+            if (float.TryParse(lat, out latitude))
+            {
+                viewModel.Latitude = latitude;
+            }
+            if (float.TryParse(lon, out longitude))
+            {
+                viewModel.Longitude = longitude;
+            }
+
             return View(viewModel);
         }
 
@@ -32,16 +46,32 @@ namespace AirBench.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Add(BenchAddViewModel viewModel)
         {
-            var bench = new Bench()
+            if (ModelState.IsValid)
             {
-                Description = viewModel.Description,
-                Latitude = viewModel.Latitude,
-                Longitude = viewModel.Longitude,
-                NumberSeats = viewModel.NumberSeats
-            };
-            // TODO validation
-            benchRepo.Add(bench);
-            return RedirectToAction("Index");
+                var bench = new Bench()
+                {
+                    Description = viewModel.Description,
+                    Latitude = viewModel.Latitude.Value,
+                    Longitude = viewModel.Longitude.Value,
+                    NumberSeats = viewModel.NumberSeats,
+                    UserId = ((CustomPrincipal)User).Id
+                };
+                // TODO validation
+                if (benchRepo.Add(bench))
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Unable to add bench");
+                    return View(viewModel);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "All fields are required");
+                return View(viewModel);
+            }
         }
 
         [AllowAnonymous]

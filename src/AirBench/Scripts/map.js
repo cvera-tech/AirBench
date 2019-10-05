@@ -27,12 +27,8 @@
     const benchSeatsId = 'bench-seats';
     const mapId = 'map';
     const popupOverlayId = 'popup';
+    const popupContentId = 'popup-content';
     const seatsSelectId = 'seats-select';
-
-    const popup = {
-        container: gebi('popup'),
-        content: gebi('popup-content')
-    };
 
     function initMap() {
         // Initial parameters
@@ -51,7 +47,7 @@
 
         const overlay = new Overlay({
             id: popupOverlayId,
-            element: popup.container,
+            element: gebi(popupOverlayId),
             autoPan: true,
             autoPanAnimation: {
                 duration: 250
@@ -154,8 +150,31 @@
         return content;
     }
 
+    function buildPopupAddBench(latitude, longitude) {
+        const addBenchUrl = `/bench/add?lat=${latitude}&lon=${longitude}`;
+        const content = 
+        `
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Latitude</td>
+                        <td>${latitude}</td>
+                    </tr>
+                    <tr>
+                        <td>Longitude</td>
+                        <td>${longitude}</td>
+                    </tr>
+                    <tr colspan="2">
+                        <td><a class="btn btn-primary" href="${addBenchUrl}">Add Bench Here</a>
+                    </tr>
+                </tbody>
+            </table>
+        `;
+        return content;
+    }
+
     // TODO: Rewrite to match other build functions
-    function buildPopupContent(feature) {
+    function buildPopupBenchDetails(feature) {
         let content = '<table><thead></thead><tbody>';
         content += '<tr><td>Description</td><td>' + feature.get('description') + '</td></tr>';
         content += '<tr><td>Latitude</td><td>' + feature.get('latitude') + '</td></tr>';
@@ -233,16 +252,24 @@
             );
             if (feature) {
                 const coordinates = feature.getGeometry().getCoordinates();
-                popup.content.innerHTML = buildPopupContent(feature);
+                gebi(popupContentId).innerHTML = buildPopupBenchDetails(feature);
                 overlay.setPosition(coordinates);
 
                 const bench = await getBenchFromFeature(feature);
                 buildBenchDetails(bench);
                 showDetailsTable();
-            } else {
+            } else if (overlay.getPosition() !== undefined) {
                 overlay.setPosition(undefined);
                 hideDetailsTable();
+            } else {
+                const coordinates = e.coordinate;
+                const lonLat = ToLonLat(coordinates);
+                const longitude = lonLat[0];
+                const latitude = lonLat[1];
+                gebi(popupContentId).innerHTML = buildPopupAddBench(latitude, longitude);
+                overlay.setPosition(coordinates);
             }
+            e.stopPropagation();
         })
 
         // Table listeners
