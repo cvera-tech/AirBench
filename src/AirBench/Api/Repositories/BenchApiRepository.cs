@@ -1,7 +1,9 @@
 ﻿using AirBench.Data;
 using AirBench.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AirBench.Api.Repositories
@@ -32,10 +34,18 @@ namespace AirBench.Api.Repositories
 
         public async Task<Bench> GetAsync(int id)
         {
-            return await _context.Benches
-                .Include(b => b.Reviews)
+            // Two queries to take advantage of EF relationship fix-up
+            var benches = await _context.Benches
                 .Include(b => b.User)
                 .SingleOrDefaultAsync(b => b.Id == id);
+
+            var reviews = await _context.Reviews
+                .Include(r => r.User)
+                .Where(r => r.BenchId == id)
+                .OrderByDescending(r => r.Date)
+                .ToListAsync();
+
+            return benches;
         }
 
         public async Task<List<Bench>> ListAsync()

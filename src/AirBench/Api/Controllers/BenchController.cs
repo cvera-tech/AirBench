@@ -1,6 +1,7 @@
 ﻿using AirBench.Api.Models;
 using AirBench.Api.Repositories;
 using AirBench.Models;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -26,7 +27,8 @@ namespace AirBench.Api.Controllers
         ///     "Description": `string`,
         ///     "Latitude": `float`,
         ///     "Longitude": `float`,
-        ///     "NumberSeats": `int`
+        ///     "NumberSeats": `int`,
+        ///     "UserId": `int`
         /// }
         /// 
         /// RESPONSE BODY:
@@ -36,7 +38,8 @@ namespace AirBench.Api.Controllers
         ///     "Description": `string`,
         ///     "Latitude": `float`,
         ///     "Longitude": `float`,
-        ///     "NumberSeats": `int`
+        ///     "NumberSeats": `int`,
+        ///     "UserId": `int`
         /// }
         /// </summary>
         /// <param name="request">The request body.</param>
@@ -49,7 +52,8 @@ namespace AirBench.Api.Controllers
                 Description = request.Description,
                 Latitude = request.Latitude,
                 Longitude = request.Longitude,
-                NumberSeats = request.NumberSeats
+                NumberSeats = request.NumberSeats,
+                UserId = request.UserId
             };
             var benchId = await _benchRepo.AddAsync(bench);
             var response = new BenchAddResponse();
@@ -86,9 +90,14 @@ namespace AirBench.Api.Controllers
         ///     "AverageRating": `double`
         ///     "Reviews": [
         ///         {
-        ///             "Description": `string`,
-        ///             "Rating": `int`
+        ///             "description": `string`,
+        ///             "rating": `int`,
+        ///             "reviewer": `string`
+        ///             "date": `datetimeoffset`
         ///         }
+        ///         .
+        ///         .
+        ///         .
         ///     ]
         /// }
         /// </summary>
@@ -112,11 +121,11 @@ namespace AirBench.Api.Controllers
 
                 bench.Reviews.ForEach(r =>
                 {
-                    var reviewInfo = new ShortReviewInfo()
-                    {
-                        Description = r.Description,
-                        Rating = r.Rating
-                    };
+                    var reviewInfo = new ShortReviewInfo();
+                    reviewInfo.Description = r.Description;
+                    reviewInfo.Rating = r.Rating;
+                    reviewInfo.Reviewer = r.User.ShortName;
+                    reviewInfo.Date = r.Date;
                     response.Reviews.Add(reviewInfo);
                 });
             }
@@ -145,6 +154,9 @@ namespace AirBench.Api.Controllers
         ///             "NumberSeats": `int`,
         ///             "AverageRating": `double`
         ///         }
+        ///         .
+        ///         .
+        ///         .
         ///     ]
         /// }
         /// </summary>
@@ -156,10 +168,16 @@ namespace AirBench.Api.Controllers
             var response = new BenchListResponse();
             benches.ForEach(b =>
             {
+                var shortDescription = b.Description;
+                var descriptionArray = b.Description.Split(' ');
+                if (descriptionArray.Length > 10)
+                {
+                    shortDescription = string.Join(" ", descriptionArray.Take(10).ToArray()) + "...";
+                }
                 var benchInfo = new ShortBenchInfo()
                 {
                     Id = b.Id,
-                    Description = b.Description,
+                    Description = shortDescription,
                     Latitude = b.Latitude,
                     Longitude = b.Longitude,
                     NumberSeats = b.NumberSeats,

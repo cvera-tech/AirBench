@@ -9,5 +9,7 @@
         public float Longitude { get; set; }
 
         public int NumberSeats { get; set; }
+
+        public int UserId { get; set; }
     }
 }
