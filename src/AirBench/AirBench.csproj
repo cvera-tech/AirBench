@@ -170,15 +170,35 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\Controllers\ReviewController.cs" />
+    <Compile Include="Api\Models\BenchAddRequest.cs" />
+    <Compile Include="Api\Models\BenchAddResponse.cs" />
+    <Compile Include="Api\Models\BenchDetailsResponse.cs" />
+    <Compile Include="Api\Models\IReviewInfo.cs" />
+    <Compile Include="Api\Models\ReviewAddRequest.cs" />
+    <Compile Include="Api\Models\ReviewAddResponse.cs" />
+    <Compile Include="Api\Models\ReviewDetailsResponse.cs" />
+    <Compile Include="Api\Models\ReviewListForResponse.cs" />
+    <Compile Include="Api\Models\ShortReviewInfo.cs" />
+    <Compile Include="Api\Models\ReviewInfo.cs" />
+    <Compile Include="Api\Models\ReviewListResponse.cs" />
+    <Compile Include="Api\Models\ShortBenchInfo.cs" />
+    <Compile Include="Api\Models\BenchListResponse.cs" />
+    <Compile Include="Api\Repositories\IReviewApiRepository.cs" />
+    <Compile Include="Api\Repositories\ReviewApiRepository.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Api\Controllers\BenchController.cs" />
     <Compile Include="Controllers\BenchController.cs" />
     <Compile Include="Data\BenchContext.cs" />
     <Compile Include="Data\BenchInitializer.cs" />
     <Compile Include="Data\IBenchContext.cs" />
     <Compile Include="Data\Repositories\AccountRepository.cs" />
+    <Compile Include="Api\Repositories\BenchApiRepository.cs" />
+    <Compile Include="Api\Repositories\IApiRepository.cs" />
+    <Compile Include="Api\Repositories\IBenchApiRepository.cs" />
     <Compile Include="Data\Repositories\BenchRepository.cs" />
     <Compile Include="Data\Repositories\IAccountRepository.cs" />
     <Compile Include="Data\Repositories\IBenchRepository.cs" />

@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity;
 using AirBench.Models;
+using System.Threading.Tasks;
 
 namespace AirBench.Data
 {
@@ -9,6 +10,7 @@ namespace AirBench.Data
         DbSet<Review> Reviews { get; set; }
         DbSet<User> Users { get; set; }
 
-        void SaveChanges();
+        int SaveChanges();
+        Task<int> SaveChangesAsync();
     }
 }

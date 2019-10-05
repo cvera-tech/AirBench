@@ -9,9 +9,9 @@ namespace AirBench.Data.Repositories
 {
     public class BenchRepository : IBenchRepository
     {
-        private BenchContext _context;
+        private IBenchContext _context;
 
-        public BenchRepository(BenchContext context)
+        public BenchRepository(IBenchContext context)
         {
             _context = context;
         }
