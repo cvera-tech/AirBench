@@ -1,4 +1,6 @@
-﻿namespace AirBench.Api.Models
+﻿using System;
+
+namespace AirBench.Api.Models
 {
     public class ReviewAddResponse
     {
@@ -11,5 +13,9 @@
         public string Description { get; set; }
 
         public int Rating { get; set; }
+
+        public DateTimeOffset Date { get; set; }
+
+        public int UserId { get; set; }
     }
 }

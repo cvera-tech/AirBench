@@ -18,7 +18,11 @@ namespace AirBench.Models
         
         public int NumberSeats { get; set; }
 
-        // Navigation property
+        // Foreign key properties
+        public int UserId { get; set; }
+
+        // Navigation properties
+        public User User { get; set; }
         public List<Review> Reviews { get; set; }
 
         public double? AverageRating

@@ -12,6 +12,7 @@ using AirBench.Security;
 using AirBench.Data.Repositories;
 using System.Threading;
 using AirBench.Data;
+using Newtonsoft.Json.Serialization;
 
 namespace AirBench
 {
@@ -25,6 +26,10 @@ namespace AirBench
             GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             RegisterGlobalFilters(GlobalFilters.Filters);
+
+            // Set up camel case JSON formatting
+            var jsonFormatter = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
+            jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }
 
         void RegisterGlobalFilters(GlobalFilterCollection filters)

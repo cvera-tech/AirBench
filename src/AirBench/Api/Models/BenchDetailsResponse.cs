@@ -18,6 +18,8 @@ namespace AirBench.Api.Models
 
         public double? AverageRating { get; set; }
 
+        public string AddedBy { get; set; }
+
         public List<IReviewInfo> Reviews { get; set; }
 
         public BenchDetailsResponse()

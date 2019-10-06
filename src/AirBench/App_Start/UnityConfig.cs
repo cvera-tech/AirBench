@@ -1,6 +1,7 @@
 using System.Web.Http;
 using System.Web.Mvc;
 using Unity;
+using Unity.Lifetime;
 using Mvc5Resolver = Unity.Mvc5.UnityDependencyResolver;
 using ApiResolver = Unity.WebApi.UnityDependencyResolver;
 using AirBench.Data.Repositories;
@@ -16,7 +17,7 @@ namespace AirBench
             var container = new UnityContainer();
 
             // MVC dependencies
-            container.RegisterType<IBenchContext, BenchContext>();
+            container.RegisterType<IBenchContext, BenchContext>(new HierarchicalLifetimeManager());
             container.RegisterType<IAccountRepository, AccountRepository>();
             container.RegisterType<IBenchRepository, BenchRepository>();
             container.RegisterType<IReviewRepository, ReviewRepository>();
