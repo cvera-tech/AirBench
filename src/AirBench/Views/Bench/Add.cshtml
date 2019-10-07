@@ -23,8 +23,7 @@
             htmlAttributes: new
             {
                 required = "required",
-                pattern = @"\d+",
-                Value = ""
+                pattern = @"-?\d+\.*\d*"
             })
         @Html.ValidationMessageFor(m => m.Latitude)
     </fieldset>
@@ -34,8 +33,7 @@
             htmlAttributes: new
             {
                 required = "required",
-                pattern = @"\d+",
-                Value = ""
+                pattern = @"-?\d+\.*\d*"
             })
         @Html.ValidationMessageFor(m => m.Longitude)
     </fieldset>

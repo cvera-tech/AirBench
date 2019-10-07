@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace AirBench.Models
 {
@@ -11,9 +12,15 @@ namespace AirBench.Models
         [Required]
         public string Description { get; set; }
 
-        // Foreign Key
+        public DateTimeOffset Date { get; set; }
+
+        // Foreign keys
         public int BenchId { get; set; }
+        public int UserId { get; set; }
+
+        // Navigation properties
         public Bench Bench { get; set; }
+        public User User { get; set; }
 
         public override string ToString()
         {

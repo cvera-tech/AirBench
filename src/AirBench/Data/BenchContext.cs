@@ -1,6 +1,6 @@
 ﻿using AirBench.Models;
 using System.Data.Entity;
-using System.Threading.Tasks;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace AirBench.Data
 {
@@ -15,14 +15,11 @@ namespace AirBench.Data
             Database.SetInitializer(new BenchInitializer());
         }
 
-        int IBenchContext.SaveChanges()
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            return base.SaveChanges();
-        }
-
-        async Task<int> IBenchContext.SaveChangesAsync()
-        {
-            return await base.SaveChangesAsync();
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
         }
     }
 }

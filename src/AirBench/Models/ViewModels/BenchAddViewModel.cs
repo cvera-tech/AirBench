@@ -9,9 +9,11 @@ namespace AirBench.Models.ViewModels
         [Required]
         public string Description { get; set; }
         
-        public float Latitude { get; set; }
+        [Required, Range(-90.0, 90.0, ErrorMessage = "Latitude must be in range (-90, 90)")]
+        public float? Latitude { get; set; }
 
-        public float Longitude { get; set; }
+        [Required, Range(-180.0, 180.0, ErrorMessage = "Longitude must be in range (-180, 180)")]
+        public float? Longitude { get; set; }
         
         [Display(Name = "Number of Seats")]
         public int NumberSeats { get; set; }

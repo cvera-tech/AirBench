@@ -21,6 +21,8 @@ namespace AirBench.Models
         [Required]
         public string LastName { get; set; }
 
+        public string ShortName { get { return $"{FirstName} {LastName.Substring(0, 1)}.";  } }
+
         public override string ToString()
         {
             return $"[{Id}] {Username}: {FirstName} {LastName}";

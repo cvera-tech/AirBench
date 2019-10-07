@@ -12,6 +12,8 @@
 
         public float Longitude { get; set; }
 
-        public float NumberSeats { get; set; }
+        public int NumberSeats { get; set; }
+
+        public int UserId { get; set; }
     }
 }

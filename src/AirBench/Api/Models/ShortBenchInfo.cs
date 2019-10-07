@@ -13,5 +13,7 @@
         public int NumberSeats { get; set; }
 
         public double? AverageRating { get; set; }
+
+        public string AddedBy { get; set; }
     }
 }
