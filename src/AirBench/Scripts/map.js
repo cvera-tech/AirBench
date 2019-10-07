@@ -73,10 +73,6 @@
             })
         });
 
-        registerEventListeners(map, {
-            overlay: overlay
-        });
-
         return map;
     }
 
@@ -318,12 +314,15 @@
         const seatsMinSelect = gebi(seatsMinSelectId);
         const seatsMaxSelect = gebi(seatsMaxSelectId);
         seatsMinSelect.addEventListener('change', () => {
+            let max = parseInt(seatsMaxSelect.value, 10);
             const min = parseInt(seatsMinSelect.value, 10);
-            const max = parseInt(seatsMaxSelect.value, 10);
-            seatsMaxSelect.innerHTML = buildBenchMaxSeatsSelect(min);
+            if (min > max || isNaN(max)) {
+                seatsMaxSelect.innerHTML = buildBenchMaxSeatsSelect(min);
+                max = maxSeats;
+            }
             filterBenches(min, max);
         });
-        seatsMaxSelect.addEventListener('change', () => { 
+        seatsMaxSelect.addEventListener('change', () => {
             const min = parseInt(seatsMinSelect.value, 10);
             const max = parseInt(seatsMaxSelect.value, 10);
             filterBenches(min, max);
