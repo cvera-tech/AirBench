@@ -1,5 +1,6 @@
 ﻿using AirBench.Models;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace AirBench.Data
 {
@@ -16,11 +17,9 @@ namespace AirBench.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            // I don't like this
-            modelBuilder.Entity<Review>()
-                .HasRequired<User>(r => r.User)
-                .WithMany()
-                .WillCascadeOnDelete(false);
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
         }
     }
 }

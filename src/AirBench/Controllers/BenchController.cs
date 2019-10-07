@@ -24,21 +24,13 @@ namespace AirBench.Controllers
             return View();
         }
 
-        public ActionResult Add()
+        public ActionResult Add(float lat, float lon)
         {
-            float latitude, longitude;
-            var lat = Request.QueryString["lat"];
-            var lon = Request.QueryString["lon"];
-            var viewModel = new BenchAddViewModel();
-
-            if (float.TryParse(lat, out latitude))
+            var viewModel = new BenchAddViewModel()
             {
-                viewModel.Latitude = latitude;
-            }
-            if (float.TryParse(lon, out longitude))
-            {
-                viewModel.Longitude = longitude;
-            }
+                Latitude = lat,
+                Longitude = lon
+            };
 
             return View(viewModel);
         }
@@ -65,14 +57,13 @@ namespace AirBench.Controllers
                 else
                 {
                     ModelState.AddModelError("", "Unable to add bench.");
-                    return View(viewModel);
                 }
             }
             else
             {
                 ModelState.AddModelError("", "All fields are required.");
-                return View(viewModel);
             }
+            return View(viewModel);
         }
 
         [AllowAnonymous]
@@ -114,14 +105,13 @@ namespace AirBench.Controllers
                 else
                 {
                     ModelState.AddModelError("", "Unable to add review.");
-                    return View(viewModel);
                 }
             }
             else
             {
                 ModelState.AddModelError("", "All fields are required.");
-                return View(viewModel);
             }
+            return View(viewModel);
         }
     }
 }

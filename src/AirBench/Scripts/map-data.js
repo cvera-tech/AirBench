@@ -29,6 +29,6 @@ async function getBench(id) {
         };
         return bench;
     } else {
-        return undefined;
+        return null;
     }
 }
