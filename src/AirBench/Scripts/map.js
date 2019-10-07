@@ -42,7 +42,7 @@
     function initMap() {
         // Initial parameters
         const initCenter = [0, 0];
-        const initZoom = 3;
+        const initZoom = 2;
 
         // The layer with the map tiles to use
         const rasterLayer = new TileLayer({
