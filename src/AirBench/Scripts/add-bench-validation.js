@@ -1,5 +1,5 @@
 ﻿(function () {
-    const form = document.getElementById('AddBenchForm')
+    const form = document.getElementById('AddBenchForm');
     const description = document.getElementById('Description');
     const seats = document.getElementById('NumberSeats');
     const latitude = document.getElementById('Latitude');
