@@ -4,9 +4,11 @@ using AirBench.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace AirBench.Api.Controllers
 {
+    [EnableCors("*","*","*")]
     public class BenchController : ApiController
     {
         private IBenchApiRepository _benchRepo;
