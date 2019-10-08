@@ -33,12 +33,16 @@
     const mapId = 'map';
     const popupOverlayId = 'popup';
     const popupContentId = 'popup-content';
-    const seatsSelectId = 'seats-select';
+    const seatsMaxSelectId = 'seats-max-select';
+    const seatsMinSelectId = 'seats-min-select';
+
+    // App settings
+    const maxSeats = 10;
 
     function initMap() {
         // Initial parameters
         const initCenter = [0, 0];
-        const initZoom = 3;
+        const initZoom = 2;
 
         // The layer with the map tiles to use
         const rasterLayer = new TileLayer({
@@ -67,10 +71,6 @@
                 center: initCenter,
                 zoom: initZoom
             })
-        });
-
-        registerEventListeners(map, {
-            overlay: overlay
         });
 
         return map;
@@ -108,6 +108,21 @@
         buildList(bench.reviews, benchReviewsId, buildReviewListRow);
     }
 
+    function buildBenchMaxSeatsSelect(minSeats) {
+        if (minSeats === 0) {
+            return '';
+        }
+
+        let optionsArray = [];
+        for (let i = minSeats; i < maxSeats; i++) {
+            optionsArray.push(
+                `<option value="${i}">${i}</option>`
+            );
+        }
+        optionsArray.push(`<option value="${maxSeats}" selected>${maxSeats}</option>`)
+        return optionsArray.join('');
+    }
+
     /**
      * Builds an HTML table rows for a given list.
      * @param {Array} list
@@ -125,8 +140,8 @@
     function buildBenchListRow(bench) {
         const avgRating = bench.averageRating;
         const rating = avgRating === null ? 'no ratings' : avgRating;
-        const content = 
-        `<tr><td colspan="2">
+        const content =
+            `<tr><td colspan="2">
             <table class="table">
                 <thead></thead>
                 <tbody>
@@ -158,8 +173,8 @@
 
     function buildPopupAddBench(latitude, longitude) {
         const url = `${addBenchUrl}?lat=${latitude}&lon=${longitude}`;
-        const content = 
-        `
+        const content =
+            `
             <table>
                 <tbody>
                     <tr>
@@ -199,8 +214,8 @@
     }
 
     function buildReviewListRow(review) {
-        const content = 
-        `<tr><td colspan="2">
+        const content =
+            `<tr><td colspan="2">
             <table class="table">
                 <thead></thead>
                 <tbody>
@@ -224,6 +239,18 @@
             </table>
         </td></tr>`;
         return content;
+    }
+
+    function filterBenches(min, max) {
+        let benchList;
+        if (min === 0) {
+            benchList = benches;
+        } else {
+            benchList = benches.filter(b => b.numberSeats >= min && b.numberSeats <= max);
+        }
+        addBenchMarkers(benchList);
+        buildList(benchList, benchListId, buildBenchListRow);
+        map.getOverlayById(popupOverlayId).setPosition(undefined);
     }
 
     async function getBenchFromFeature(feature) {
@@ -284,19 +311,22 @@
         });
 
         // Table listeners
-        const seatsSelect = gebi(seatsSelectId);
-        seatsSelect.addEventListener('change', (e) => {
-            const seats = parseInt(e.target.value);
-            let benchList;
-            if (seats === 0) {
-                benchList = benches;
-            } else {
-                benchList = benches.filter(b => b.numberSeats === seats);
+        const seatsMinSelect = gebi(seatsMinSelectId);
+        const seatsMaxSelect = gebi(seatsMaxSelectId);
+        seatsMinSelect.addEventListener('change', () => {
+            let max = parseInt(seatsMaxSelect.value, 10);
+            const min = parseInt(seatsMinSelect.value, 10);
+            if (min > max || isNaN(max)) {
+                seatsMaxSelect.innerHTML = buildBenchMaxSeatsSelect(min);
+                max = maxSeats;
             }
-            addBenchMarkers(benchList);
-            buildList(benchList, benchListId, buildBenchListRow);
-            map.getOverlayById(popupOverlayId).setPosition(undefined);
+            filterBenches(min, max);
         });
+        seatsMaxSelect.addEventListener('change', () => {
+            const min = parseInt(seatsMinSelect.value, 10);
+            const max = parseInt(seatsMaxSelect.value, 10);
+            filterBenches(min, max);
+        })
     }
 
     //********************
